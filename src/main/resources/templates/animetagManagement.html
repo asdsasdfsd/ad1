@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Tags</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="container">
+
+		<h3>Tag Management</h3>
+
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" placeholder="Search by name" id="searchName">
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button" onclick="searchByName()">Search</button>
+			</div>
+		</div>
+
+		<a th:href="@{/animetags/create}" class="btn btn-primary btn-sm mb-3">Create</a>
+
+		<table class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>Index</th>
+					<th>Name</th>
+					<th>Anime Count with Tag</th>
+					<th>Operate</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="animetag : ${animetags}">
+					<td th:text="${animetag.id}"></td>
+					<td th:text="${animetag.tagName}"></td>
+					<td th:text="${animeCount}"></td>
+					<td>
+						<button th:onclick="'editTag(' + ${animetag.id} + ')'" class="btn btn-primary">Edit</button>
+						<button th:onclick="'deleteTag(' + ${animetag.id} + ')'" class="btn btn-danger">Delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		// 页面加载完成后执行
+		$(document).ready(function () {
+			// 调用countAnimesByAnimetag方法获取数据，并更新表格内容
+			updateTable();
+		});
+
+		function updateTable() {
+			$.get("/animetags/count/{animetagId}", function (data) {
+				// 更新表格内容
+				$("#animetagTable tbody").html("<tr><td>1</td><td>{animetagName}</td><td>" + data + "</td><td><button>Edit</button><button>Delete</button></td></tr>");
+			});
+		}
+
+		function searchByName() {
+			var name = document.getElementById("searchName").value;
+			window.location.href = "/animetags/search?name=" + name;
+		}
+
+	</script>
+
+</body>
+
+</html>

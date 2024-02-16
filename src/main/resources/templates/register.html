@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Register</h2>
+    <form th:action="@{/user/register}" th:object="${regularUser}" method="post">
+        <!-- Account -->
+        <div>
+            <label for="account">Account:</label>
+            <input type="text" id="account" th:field="*{account}" required>
+            <div class="error" th:if="${#fields.hasErrors('account')}" th:errors="*{account}"></div>
+        </div>
+
+        <!-- Password -->
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" required>
+            <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        </div>
+
+        <!-- Username -->
+        <div>
+            <label for="userName">Username:</label>
+            <input type="text" id="userName" th:field="*{userName}" required>
+            <div class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+        </div>
+
+        <!-- Gender -->
+        <div>
+            <label for="gender">Gender:</label>
+            <select id="gender" th:field="*{gender}" required>
+                <option th:each="gender : ${GENDER_ENUM}" th:value="${gender}" th:text="${gender}"></option>
+            </select>
+            <div class="error" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+        </div>
+
+        <!-- Motto -->
+        <div>
+            <label for="motto">Motto:</label>
+            <input type="text" id="motto" th:field="*{motto}">
+            <div class="error" th:if="${#fields.hasErrors('motto')}" th:errors="*{motto}"></div>
+        </div>
+
+        <!-- Birthday -->
+        <div>
+            <label for="birthday">Birthday:</label>
+            <input type="date" id="birthday" th:field="*{birthday}" required>
+            <div class="error" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div>
+        </div>
+
+        <!-- Profile Image (URL or Base64) -->
+        <div>
+            <label for="profileImage">Profile Image:</label>
+            <input type="text" id="profileImage" th:field="*{profileImage}">
+            <small>Provide a URL or Base64-encoded image</small>
+            <div class="error" th:if="${#fields.hasErrors('profileImage')}" th:errors="*{profileImage}"></div>
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

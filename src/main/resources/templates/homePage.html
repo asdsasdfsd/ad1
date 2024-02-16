@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+    <div>
+        <h1>Welcome, <span th:text="${user.userName}">User</span>!</h1>
+        <h2>Your Top Collections</h2>
+        <ul>
+            <li th:each="useranime : ${topCollection}">
+                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
+            </li>
+        </ul>
+
+        <h2>Your Top Collection Contents</h2>
+        <ul>
+            <li th:each="useranime : ${topCollectionContent}">
+                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
+            </li>
+        </ul>
+
+        <h2>Your Top Ratings</h2>
+        <ul>
+            <li th:each="useranime : ${topRating}">
+                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
+            </li>
+        </ul>
+
+        <h2>Your Top Subscriptions</h2>
+        <ul>
+            <li th:each="useranime : ${topSubscription}">
+                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

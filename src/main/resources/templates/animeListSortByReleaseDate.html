@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/animelist.css">
+<script th:src="@{/js/animelist.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+
+<body>
+	<!-- 顶部栏 -->
+	<div class="container-fluid">
+		<span class="logo">AniRec</span>
+		<span class="topTitle"><a class="nav_title" href="/animes/animelist">Anime </a></span>
+		<span class="topTitle"><a class="nav_title" href="/user/homePage">Home Page </a></span>
+		<div class="search_container">
+		    <input class="animeTxt" id="animename" type="text" placeholder="Search">
+		    <div class="search_icon">
+		        <img src="/images/search.png" alt="Search Icon">
+		    </div>
+		</div>
+		
+		<!-- 头像 -->
+		<a href="/user/follow" style="text-decoration: none;">
+			<span>
+				<div class="topBar_icon" style="margin-left:100px; padding-top: 0px;">
+					<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border:3px solid white; border-radius: 50%;">
+				</div>
+			</span>
+		</a>
+		
+		<!-- 追番 -->
+		<a href="/user/follow" style="text-decoration: none;">
+			<span>
+				<div class="topBar_icon">
+					<img src="/images/follow_white.png" alt="follow Icon">
+					<p style="font-weight:bold; color:white;">Follow</p>
+				</div>
+			</span>
+		</a>
+		
+		<!-- 收藏 -->
+		<a href="/user/favourite" style="text-decoration: none;">
+			<span>
+				<div class="topBar_icon">
+					<img src="/images/favourites_white.png" alt="follow Icon">
+					<p style="font-weight:bold; color:white;">Favourite</p>
+				</div>
+			</span>
+		</a>
+		
+		<!-- 历史 -->
+		<a href="/user/history" style="text-decoration: none;">
+			<span>
+				<div class="topBar_icon">
+					<img src="/images/history_white.png" alt="follow Icon">
+					<p style="font-weight:bold; color:white;">History</p>
+				</div>
+			</span>
+		</a>
+		
+		<!-- 登出 -->
+		<a href="/user/login" style="text-decoration: none;">
+			<span>
+				<div class="topBar_icon">
+					<img src="/images/logout_white.png" alt="follow Icon">
+					<p style="font-weight:bold; color:white;">Logout</p>
+				</div>
+			</span>
+		</a>
+	</div>
+	
+	<!-- 主体内容 -->
+	<div class="container" style="width:87.5%;">
+        
+        <!-- 时间排行 -->
+		<div style="display:flex; align-items:center; justify-content:space-between;">
+			<p class="category">By Latest</p>
+		</div>
+	    <div class="row">
+		    <div class="col-md-2 anime-item" th:each="anime, iterStat : ${latest20Anime}">
+	            <!-- 第一个动漫封面 -->
+	            <a th:href="@{'/animes/details/' + ${anime.id}}" style="text-decoration: none;">
+	            	<img class="animePic" th:src="${anime.cover}">
+	            	<p class="animeName" th:text="${anime.name}" style="margin-top:20px">AnimeName</p>
+	            	<div class="ratings" style="position: absolute; top: 0px; right:88px; padding:8px;">
+			            <span th:text="${anime.averageRating}" style="font-size:32px; font-weight:bold; color:white;">Rating</span>
+			        </div>
+			        <div class="clickCount" style="position: absolute; bottom:54px; left: 18px; padding:8px;">
+			            <span th:text="${anime.clicks} + ' clicks' " style="font-size:16px; font-weight:bold; color:white;">Clicks</span>
+			        </div>
+	            </a>
+	        </div> 
+        </div>
+	</div>
+	
+</body>
+</html>

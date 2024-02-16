@@ -1,0 +1,210 @@
+body {
+	background-color: rgb(245,245,245);
+	font-family: 'Arial'; 
+}
+
+/* 导航栏 */
+.container-fluid {
+	background-color: #333333;
+	height: 9.26%;
+	display: flex;
+	align-items: center;
+}
+
+.logo {
+	font-family: 'Snap ITC';
+	color: #20A3FB;
+	font-size: 48px;
+	font-weight: bold;
+}
+
+.nav_title {
+	font-size: 18px;
+	margin-left: 50px;
+	color: white !important;
+}
+
+.nav_title2 {
+	margin-left: auto;
+	margin-right: 40px;
+	font-size: 18px;
+	color: white !important;
+}
+
+/* 主体内容 */
+.container {
+	margin-top: 20px;
+	width: 91.67%;
+	height: 89vh;
+	background-color: white;
+	border-radius: 5px;
+	margin-bottom: 0;
+}
+
+.page_title {
+	font-size: 24px;
+	font-weight: bold;
+	margin-left: 60px;
+	margin-top: 40px;
+}
+
+.searchBar {
+	margin-top: 30px;
+	margin-left: 60px;
+}
+
+.nicknameTxt {
+	height: 36px;
+	width: 220px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid rgb(212,212,212);
+	color: rgb(121,121,121);
+	font-size: 18px;
+}
+
+.titleTxt {
+	margin-left: 20px;
+	height: 36px;
+	width: 220px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid rgb(212,212,212);
+	color: rgb(121,121,121);
+	font-size: 18px;
+}
+
+.searchBtn {
+	margin-left: 20px;
+	height: 36px;
+	width: 80px;
+	background: linear-gradient(to right, #2D85E9, #38ABF6);
+	border: 0px;
+	border-radius: 5px;
+	color: white;
+	font-size: 18px;
+}
+
+.resetBtn {
+	margin-left: 20px;
+	height: 36px;
+	width: 80px;
+	background: white;
+	border: 1px solid #287DDE;
+	border-radius: 5px;
+	color: #287DDE;
+	font-size: 18px;
+}
+
+table.table-bordered {
+	border-collapse: collapse;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 40px;
+	margin-left: 60px;
+	
+}
+
+table.table-bordered th,
+table.table-bordered td {
+	border: 1px solid #ddd;
+	height: 60px;
+	padding: 20px;
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+table.table-bordered th {
+	background-color: #EFF9FF;
+	vertical-align: middle;
+}
+
+.banBtn {
+	float: right;
+	margin-right: 10px;
+	height: 24px;
+	width: 48px;
+	background: linear-gradient(to right, #FF556A, #D9001B);
+	border: 0px;
+	border-radius: 5px;
+	color: white;
+}
+
+.deleteBtn {
+	height: 36px;
+	width: 80px;
+	background: linear-gradient(to right, #FB8706, #EEC75D);
+	border: 0px;
+	border-radius: 5px;
+	color: white;
+}
+
+/* 删除弹窗 */
+.overlay {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(47, 79, 79);
+    opacity: 0.607843;
+    z-index: 1000;
+    display: none;
+}
+
+.deleteWindow {
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 672px;
+    height: 288px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}
+
+.topBar {
+    width: 672px;
+    height: 50px;
+    background-color: #EBEBEB;
+}
+
+.operationBtns {
+	margin-top: 60px;
+	margin-left: 408px;
+}
+
+.confirmBtn {
+	height: 36px;
+	width: 80px;
+	background: linear-gradient(to right, #2D85E9, #38ABF6);
+	border: 0px;
+	border-radius: 5px;
+	color: white;
+	font-size: 18px;
+}
+
+.cancelBtn {
+	margin-left: 20px;
+	height: 36px;
+	width: 80px;
+	background: white;
+	border: 1px solid #287DDE;
+	border-radius: 5px;
+	color: #287DDE;
+	font-size: 18px;
+}
+
+/* 封禁弹窗 */
+.banWindow {
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 672px;
+    height: 288px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}

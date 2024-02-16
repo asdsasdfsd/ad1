@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/login.css">
+<script th:src="@{/js/login.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+
+<body>
+	<!--大背景-->
+	<div class="login_background_img">
+		<div class="login_window">
+			<h2 class="_title">Log in</h2>
+			<form id="loginForm" action="/user/login" method="post">
+				<!-- 登录窗口，table 6行 -->
+				<table id="Login_Table" class="Login_Table">
+					<tr>
+						<td style="font-size:24px; color: #1162B4; font-weight: bold;">USER LOGIN</td>
+					</tr>
+	
+					<tr>
+						<td>
+							<div style="width: 60px; height: 8px; background: linear-gradient(to right, #2D85E9, #38ABF6); border-radius: 5px;"></div>
+						</td>
+					</tr>
+	
+					<!-- 登录名 -->
+					<tr>
+						<td style="padding-top:20px;">
+							<div style="position: relative;">
+								<img src="/images/user.png" alt="user" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px;" />
+								<div style="position: absolute; width:1px; height:20px; top: 50%; transform: translateY(-50%); background-color:#9BA1A6; margin-left:52px;"></div>
+								<input id="username" type="text" name="username" class="username" placeholder="username">
+							</div>
+						</td>
+					</tr>
+	
+					<!-- 密码 -->
+					<tr>
+						<td style="padding-top:20px;">
+							<div style="position: relative;">
+								<img src="/images/password.png" alt="user" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 18px; height: 16px;" />
+								<div style="position: absolute; width:1px; height:20px; top: 50%; transform: translateY(-50%); background-color:#9BA1A6; margin-left:52px;"></div>
+								<input id="password" type="password" name="password" class="password" placeholder="password" />
+							</div>
+						</td>
+					</tr>
+	
+					<!-- 错误提示 -->
+					<tr>
+						<td id="msg" style="padding-top:10px; color:#D9001B; font-size:14px;">
+							<div th:if="${loginError}" th:text="${loginError}"></div>
+						</td>
+					</tr>
+					
+					<!-- 记住密码 -->
+					<tr>
+						<td style="padding-top:20px;">
+							<input type="checkbox" id="rememberMe" name="rememberMe" style="width: 18px; height: 18px;">
+							<label for="rememberMe" style="margin-left:10px; font-weight: normal;">Remember me</label>
+						</td>
+					</tr>
+	
+					<!-- 登录键 -->
+					<tr>
+						<td style="padding-top:40px;">
+							<input id="Login_btn" class="Login_btn" type="submit" value="LOG IN">
+						</td>
+					</tr>
+					
+					<!-- 注册账号 -->
+					<tr>
+						<td id="msg" style="padding-top:20px; text-align: right; cursor: pointer;" onmouseover="changeStyle(true)" onmouseout="changeStyle(false)">
+							<span id="registerText" onclick="registerWindow1(event)">Register now</span>
+						</td>
+					</tr>
+					
+				</table>
+			</form>
+		</div>
+	</div>
+	
+	<!-- 注册弹窗 -->
+	<div class="overlay" id="overlay"></div>
+		
+		<!-- 第一页 -->
+		<div class="registerWindow1" id="registerWindow1">
+			<p class="registerLogo">AniRec</p>
+			<p class="registerTitle">Register account</p>
+			<input id="username_register" class="registerTxt" type="text" placeholder="Username" style="margin-top:50px">
+			<input id="password_register" class="registerTxt" type="password" placeholder="Password" style="margin-top:10px">
+			<button onclick="registerWindow2(event)" class="nextstep">Next Step</button>
+			<button onclick="cancel(event)" class="cancel">Cancel</button>
+		</div>
+		
+		<!-- 第二页 -->
+		<div class="registerWindow2" id="registerWindow2">
+			<p class="registerLogo">AniRec</p>
+			<p class="registerTitle">Register account</p>
+			<p class="parameterName" style="margin-top:50px">Nickname</p>
+			<input id="nickname_register" class="registerTxt" type="text" placeholder="Nickname" style="margin-top:4px">
+			<p class="parameterName" style="margin-top:32px">Gender</p>
+			<div class="gender">
+				<input class="genderRadio" type="radio" id="female" name="gender" value="female">
+			    <label for="female" style="font-size:18px; font-weight:normal; margin-left:10px;">Female</label>
+			    <input class="genderRadio" type="radio" id="male" name="gender" value="male">
+			    <label for="male" style="font-size:18px; font-weight:normal; margin-left:10px;">Male</label>
+			</div>
+			<p class="parameterName" style="margin-top:32px">Birthday</p>
+			<input class="birthdaySelect" type="date" id="birthday" name="birthday" style="margin-top:4px">
+			<button onclick="registerWindow3(event)" class="nextstep">Next Step</button>
+			<button onclick="registerWindow1(event)" class="nextstep" style="margin-top:10px">Last Step</button>
+			<button onclick="cancel(event)" class="cancel">Cancel</button>
+		</div>
+		
+		<!-- 第三页 -->
+		<div class="registerWindow3" id="registerWindow3">
+			<p class="registerLogo">AniRec</p>
+			<p class="registerTitle">Register account</p>
+			<p class="parameterName" style="margin-top:50px">Favourite tags</p>
+			
+			<div id="selectedTags" class="tagContainer" onclick="toggleTag(event, 'selectedTags', 'unselectedTags')">
+		        <!-- 已选择的 tags 将在这里显示 -->
+		    </div>
+		    
+		    <div id="unselectedTags" class="tagContainer" onclick="toggleTag(event, 'unselectedTags', 'selectedTags')">
+		        <!-- 未选择的 tags 将在这里显示 -->
+		        <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Tsdgfag3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Taertgg3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Taqweqeqg1</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Taag3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Tagqweg2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Tawqg3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Tsdgfag3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Taertgg3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Taqweqeqg1</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Taag3</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag1"><span>Tagqweg2</span><span class="tagActions">+</span></div>
+		        <div class="tag" data-tag="Tag3"><span>Tawqg3</span><span class="tagActions">+</span></div>
+		    </div>
+		    
+			<button onclick="" class="nextstep" style="margin-top:15px;">Register Account</button>
+			<button onclick="registerWindow2(event)" class="nextstep" style="margin-top:10px">Last Step</button>
+			<button onclick="cancel(event)" class="cancel">Cancel</button>
+			
+	</div>
+	
+</body>
+</html>

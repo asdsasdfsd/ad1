@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${anime.name}">Anime Details</title>
+    <script src="/js/collection.js"></script>
+</head>
+<body>
+    <h1 th:text="${anime.name}">Anime Name</h1>
+    <img th:src="${anime.cover}" th:alt="${anime.name}" />
+    <p th:text="${anime.description}">Anime Description</p>
+    <p>Video Source: <a th:href="${anime.videoPlaybackSource}" th:text="${anime.videoPlaybackSource}">Video Link</a></p>
+    <p th:text="'Clicks: ' + ${anime.clicks}">Clicks</p>
+    <p th:text="'Average Rating: ' + ${anime.averageRating}">Average Rating</p>
+    <p th:text="'Release Date: ' + ${anime.releaseDate}">Release Date</p>
+    <p th:text="'Episodes: ' + ${anime.episodes}">Episodes</p>
+    <p th:text="'Director: ' + ${anime.director}">Director</p>
+    <p th:text="'Script: ' + ${anime.script}">Script</p>
+    <p th:text="'Character Design: ' + ${anime.characterDesign}">Character Design</p>
+    <p th:text="'Sakuga Director: ' + ${anime.sakugaDirector}">Sakuga Director</p>
+    <p th:text="'Production Company: ' + ${anime.productionCompany}">Production Company</p>
+
+    <button id="CreateCollection">创建收藏夹</button>
+    <div id="collectionModal" style="display:none;">
+	    <h2>添加到收藏</h2>
+	    <input type="hidden" id="animeId" value="${anime.id}" />
+	    <input type="hidden" id="userId" value="${regularUser.id}" />
+	    <label for="animeName">名称：</label>
+	    <input type="text" id="animeName" name="animeName"><br><br>
+	    <label for="animeRating">评分：</label>
+	    <input type="number" id="animeRating" name="animeRating" min="0" max="10" step="0.1"><br><br>
+	    <label for="animeDescription">描述：</label>
+	    <textarea id="animeDescription" name="animeDescription"></textarea><br><br>
+	    <button onclick="closeModal()">取消</button>
+	</div>
+	<button id="Add-to-Collection">添加到收藏夹</button>
+    <button id="SplitScreen">屏分</button>
+    <button id="Subscribe">订阅</button>
+    
+    <button id="CreateComment">创建评论</button>
+    <h2>Comments</h2>
+    <div th:each="comment : ${anime.comments}">
+        <p th:text="${comment.text}">Comment Text</p>      
+    </div>
+
+    <h2>Tags</h2>
+    <ul>
+        <li th:each="tag : ${anime.tags}" th:text="${tag.name}">Tag Name</li>
+    </ul>
+
+</body>
+</html>
