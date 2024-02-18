@@ -74,30 +74,20 @@ public class UserController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("username") String account,
                                @RequestParam("password") String password,
-                               HttpSession session, Model model) {  
-        String old_userId = (String) session.getAttribute("userId");
-        if (old_userId!=null&& !old_userId.isEmpty()) {
-        	if(userService.getUserById(old_userId).get().getPosition()==UserPosition.RegularUser) {
-    			return "redirect:/user/homePage";
-    		}else {
-    			return "redirect:/animes/management";
-    		}
-        }else{
-        	
-        	String userId = userService.findUserIdByAccountAndPassword(account, password);
-        	if(userId!=null){
-        		session.setAttribute("userId", userId); 
-        		if(userService.getUserById(userId).get().getPosition()==UserPosition.RegularUser) {
-        			return "redirect:/user/homePage";
-        		}else {
-        			return "redirect:/animes/management";
-        		}	
-            }
-            else {
-            	model.addAttribute("loginError", "Invalid account or password"); 
-                return "login";
-            }    	
-        } 
+                               HttpSession session, Model model) {   
+        String userId = userService.findUserIdByAccountAndPassword(account, password);
+        if(userId!=null){
+        	session.setAttribute("userId", userId); 
+        	if(userService.getUserById(userId).get().getPosition()==UserPosition.RegularUser) {
+        		return "redirect:/user/homePage";
+        	}else {
+        		return "redirect:/animes/management";
+        	}	
+        }
+        else {
+           model.addAttribute("loginError", "Invalid account or password"); 
+           return "login";
+        }    	 
     }
     
     @GetMapping("/register")
