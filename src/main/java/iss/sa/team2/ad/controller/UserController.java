@@ -57,16 +57,18 @@ public class UserController {
     
     @GetMapping("/login")
     public String showLoginForm(HttpSession session) {
-        String userId = (String) session.getAttribute("userId");
-        if (userId != null && !userId.isEmpty()) {
-        	if(userService.getUserById(userId).get().getPosition()==UserPosition.RegularUser) {
-    			return "redirect:/user/homePage";
-    		}else {
-    			return "redirect:/animes/management";
-    		}
-        } else {
-            return "login";
-        }
+    	
+    	return "login";
+//        String userId = (String) session.getAttribute("userId");
+//        if (userId != null && !userId.isEmpty()) {
+//        	if(userService.getUserById(userId).get().getPosition()==UserPosition.RegularUser) {
+//    			return "redirect:/user/homePage";
+//    		}else {
+//    			return "redirect:/animes/management";
+//    		}
+//        } else {
+//            return "login";
+//        }
     }
 
     @PostMapping("/login")
