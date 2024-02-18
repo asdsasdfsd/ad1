@@ -15,7 +15,6 @@ import iss.sa.team2.ad.interfacemethods.IUserService;
 import iss.sa.team2.ad.model.RegularUser;
 import iss.sa.team2.ad.model.RegularUserAnime;
 import iss.sa.team2.ad.model.User;
-import iss.sa.team2.ad.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -33,6 +32,8 @@ public class UserController {
 
 	@Autowired
     private IUserService userService;
+	@Autowired
+    private IRegularUserAnimeService regularUserAnimeService;
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable String id, Model model) {
@@ -70,12 +71,21 @@ public class UserController {
                                HttpSession session, Model model) {  
         String old_userId = (String) session.getAttribute("userId");
         if (old_userId!=null&& !old_userId.isEmpty()) {
-        	return "redirect:/user/homePage";
+        	if(userService.getUserById(old_userId).get().getPosition()==UserPosition.RegularUser) {
+    			return "redirect:/user/homePage";
+    		}else {
+    			return "redirect:/animes/management";
+    		}
         }else{
+        	
         	String userId = userService.findUserIdByAccountAndPassword(account, password);
         	if(userId!=null){
-            	session.setAttribute("userId", userId); 
-            	return "redirect:/user/homePage";
+        		session.setAttribute("userId", userId); 
+        		if(userService.getUserById(userId).get().getPosition()==UserPosition.RegularUser) {
+        			return "redirect:/user/homePage";
+        		}else {
+        			return "redirect:/animes/management";
+        		}	
             }
             else {
             	model.addAttribute("loginError", "Invalid account or password"); 
@@ -117,21 +127,23 @@ public class UserController {
     	String userId = (String) session.getAttribute("userId");
     	Optional<User> userOptional = userService.getUserById(userId);
     	
-    	RegularUser regularUser = null;	
     	if (userOptional.isPresent()) {
-    		Optional<User> user = userService.getUserById(userId); 
-            if (user.isPresent()) {
-                regularUser = (RegularUser) user.get();
-                model.addAttribute("UserDetail", regularUser);
-                
-                List<Integer> yearRange = getYearRange();
-                List<Integer> monthRange = getMonthRange();
-                List<Integer> dayRange = getDayRange();
-                model.addAttribute("yearRange", yearRange);
-                model.addAttribute("monthRange", monthRange);
-                model.addAttribute("dayRange", dayRange);
-                model.addAttribute("user", regularUser);
-            }
+            User user = userOptional.get();
+            
+            model.addAttribute("user", user);
+            RegularUser regularUser = (RegularUser) user;
+            model.addAttribute("UserDetail", regularUser);
+            
+            List<Integer> yearRange = getYearRange();
+            List<Integer> monthRange = getMonthRange();
+            List<Integer> dayRange = getDayRange();
+            
+            List<RegularUserAnime> regularUserAnimes = regularUserAnimeService.findAllByUserIdAndType(userId, MyType.Subscription);
+            
+            model.addAttribute("yearRange", yearRange);
+            model.addAttribute("monthRange", monthRange);
+            model.addAttribute("dayRange", dayRange);
+            model.addAttribute("subscriptions", regularUserAnimes );
             return "homePage"; 
         } else {
             
