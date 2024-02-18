@@ -1,39 +1,270 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-</head>
-<body>
-    <div>
-        <h1>Welcome, <span th:text="${user.userName}">User</span>!</h1>
-        <h2>Your Top Collections</h2>
-        <ul>
-            <li th:each="useranime : ${topCollection}">
-                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
-            </li>
-        </ul>
-
-        <h2>Your Top Collection Contents</h2>
-        <ul>
-            <li th:each="useranime : ${topCollectionContent}">
-                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
-            </li>
-        </ul>
-
-        <h2>Your Top Ratings</h2>
-        <ul>
-            <li th:each="useranime : ${topRating}">
-                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
-            </li>
-        </ul>
-
-        <h2>Your Top Subscriptions</h2>
-        <ul>
-            <li th:each="useranime : ${topSubscription}">
-                <span th:text="${useranime.anime.name}">Anime Name</span> - Rated: <span th:text="${anime.rating}">Rating</span>
-            </li>
-        </ul>
-    </div>
-</body>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/homepage.css">
+<link rel="stylesheet" type="text/css" href="/css/H-ui.css">
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+	
+	<body style="background: #f5f5f5;">
+		<!-- 顶部栏 -->
+		<div class="container-fluid">
+			<span class="logo">AniRec</span>
+			<span class="topTitle"><a class="nav_title" href="/animes/animelist">Anime </a></span>
+			<span class="topTitle"><a class="nav_title" href="/user/homePage">Home Page</a></span>
+			<div class="search_container">
+			    <input class="animeTxt" id="animename" type="text" placeholder="Search">
+			    <div class="search_icon">
+			        <img src="/images/search.png" alt="Search Icon">
+			    </div>
+			</div>
+			
+			<!-- 头像 -->
+			<a href="/user/follow" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon" style="margin-left:100px; padding-top: 0px;">
+						<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border:3px solid white; border-radius: 50%;">
+					</div>
+				</span>
+			</a>
+			
+			<!-- 追番 -->
+			<a href="/user/follow" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/follow_black.jpg" alt="follow Icon">
+						<p>Follow</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 收藏 -->
+			<a href="/user/favourite" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/favourite_black.jpg" alt="follow Icon">
+						<p>Favourite</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 历史 -->
+			<a href="/user/history" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/history_black.jpg" alt="follow Icon">
+						<p>History</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 登出 -->
+			<a href="/user/login" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/logout_black.jpg" alt="follow Icon">
+						<p>Logout</p>
+					</div>
+				</span>
+			</a>
+		</div>
+		<div class="main">
+			<div class="main1">
+				<div class="m1-top">
+					<div class="m1-t-img">
+						<img src="/images/userbackground.jpg" alt="" srcset="" />
+					</div>
+					<div class="m1-t-body">
+						<div class="m1-t-body-t">
+							<a href="" style="font-weight:normal; border-radius:5px;">Change Background</a>
+						</div>
+						<div class="m1-t-body-b">
+							<div style="display: table;" class="l">
+								<div style="margin-left:10px; margin-right: 20px;" class="l">
+									<img src="/images/userphoto.jpg" style="border: 2px solid white;" alt="" srcset="" />
+								</div>
+								<div class="r">
+									<div style="font-size:24px; font-weight:bold; text-align: left; color: white;">
+										<span th:text="${UserDetail.userName}">Test Account</span>
+										<span class="sex"><img src="/images/male.png" style/></span>
+									</div>
+									<div style="color:#E8E8E8; font-size:16px; text-align: left;">
+										<span th:text="${UserDetail.motto}">This is a self-introduction</span>
+									</div>
+								</div>
+							</div>
+							<div class="r">
+								<div style="font-size: 18px;color: #E8E8E8;"><span>UID：</span><span th:text="${UserDetail.id}"></span></div>
+								<div style="font-size: 18px;color: #E8E8E8;"><span>Birthday：</span><span  th:text="${UserDetail.birthday}"></span></div>
+							</div>
+						</div>
+					</div>
+					<div class="m1-t-nav">
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a class="nav-active" href="/user/homePage">
+								<img src="/images/homepage.jpg" alt="" style="margin-right:12px;">								
+								Home Page
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/follow">
+								<img src="/images/follow.jpg" alt="" style="margin-right:12px;">								
+								Follow
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/favourite">
+								<img src="/images/favourite.jpg" alt="" style="margin-right:12px;">							
+								Favorites
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/profile">
+								<img src="/images/profile.jpg" alt="" style="margin-right:12px;">
+								Profile
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		<div class="main2">
+			<!-- mydata -->
+			<div style="padding: 10px 0;border-bottom: 1px solid #D4D4D4;margin-bottom: 20px;">
+				<div class="tit">
+					My Data
+				</div>
+				<div class="mrow">
+					<div class="m-item">
+						<div style="background: #fb6260;">
+							<h2>68</h2>
+							<div>Favorites Anime</div>
+						</div>
+					</div>
+					<div class="m-item">
+						<div style="background: #39a1ff;">
+							<h2>68</h2>
+							<div>Followed Anime</div>
+						</div>
+					</div>
+					<div class="m-item">
+						<div style="background: #ffa94c;">
+							<h2>68</h2>
+							<div>Favorites Character</div>
+						</div>
+					</div>
+					<div class="m-item">
+						
+						<div style="background: #51d351;">
+							<h2>68</h2>
+							<div>Favorites Count</div>
+						</div>
+					</div>
+					<div class="m-item">
+						
+						<div style="background: #8167f5;">
+							<h2>68</h2>
+							<div>Average Rating</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- follow -->
+			<div style="padding: 10px 0;border-bottom: 1px solid #D4D4D4;margin-bottom: 20px;">
+				<div class="tit">
+					Follow
+					<a href="" class="t-bq">
+						>> More
+					</a>
+				</div>
+				<div class="row frow">
+					<div th:each="subscription : ${subscriptions}" class="col-md-4 row" style="margin-bottom:16px;">
+					    <a th:href="@{/animes/details/{id}(id=${subscription.anime.id})}">
+					        <div class="col-md-4">
+					            <img th:src="${subscription.anime.cover}" alt="Anime Cover" />
+					        </div>
+					        <div class="col-md-8">
+					            <div class="f-tit" th:text="${subscription.anime.name}">Anime Name</div>
+					            <div class="f-txt">
+								    [[${#strings.length(subscription.anime.description) > 50} ? ${#strings.substring(subscription.anime.description, 0, 50)} + '...more' : ${subscription.anime.description}]]
+								</div>
+					            <div class="f-time" th:text="${subscription.time} + ' | ' + ${subscription.anime.episodes} + ' episodes'">Release Time and Episodes</div>
+					        </div>
+					    </a>
+					</div>
+					<!--
+					<div class="col-md-4 row" style="margin-bottom:16px;">
+						<a href="">
+							<div class="col-md-4">
+								<img src="/images/anime6.jpg" alt="" />
+							</div>
+							<div class="col-md-8">
+								<div class="f-tit">O Shi No Ko</div>
+								<div class="f-txt">'In the entertainment industry, lies are weapons.' Goro, a obstetrician and gynecologist working in a small city...</div>
+								<div class="f-time">2023 | 11 episodes</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-4 row">
+						<a href="">
+							<div class="col-md-4">
+								<img src="/images/anime7.jpg" alt="" />
+							</div>
+							<div class="col-md-8">
+								<div class="f-tit">O Shi No Ko</div>
+								<div class="f-txt">'In the entertainment industry, lies are weapons.' Goro, a obstetrician and gynecologist working in a small city...</div>
+								<div class="f-time">2023 | 11 episodes</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-4 row">
+						<a href="">
+							<div class="col-md-4">
+								<img src="/images/anime8.jpg" alt="" />
+							</div>
+							<div class="col-md-8">
+								<div class="f-tit">O Shi No Ko</div>
+								<div class="f-txt">'In the entertainment industry, lies are weapons.' Goro, a obstetrician and gynecologist working in a small city...</div>
+								<div class="f-time">2023 | 11 episodes</div>
+							</div>
+						</a>
+					</div>
+					-->
+				</div>
+			</div>
+			<!-- Favourites -->
+			<div style="padding: 10px 0;">
+				<div class="tit">
+					Favourites
+					<a href="" class="t-bq">
+						>> More
+					</a>
+				</div>
+				<div class="row farow">
+					<div class="col-md-6 row">
+						<a href="">
+							<div class="col-md-2">
+								<img style="width: 100px;height: 100px;" src="/images/favourites_photo1.jpg" alt="" />
+							</div>
+							<div style="height: 175px;" class="col-md-9">
+								<div class="f-tit" style="font-size:27px; font-weight:bold;">Idol</div>
+								<div class="f-time" style="font-size:16px; font-weight:normal;">Description: This is a collection for Idol animes</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-6 row">
+						<a href="">
+							<div class="col-md-2">
+								<img style="width: 100px;height: 100px;" src="/images/favourites_photo2.jpg" alt="" />
+							</div>
+							<div style="height: 175px;" class="col-md-9">
+								<div class="f-tit" style="font-size:27px; font-weight:bold;">Fantasy</div>
+								<div class="f-time" style="font-size:16px; font-weight:normal;">Description: This is a collection for Fantasy animes</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
 </html>

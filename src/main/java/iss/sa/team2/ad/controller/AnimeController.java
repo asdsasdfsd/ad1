@@ -1,19 +1,30 @@
 package iss.sa.team2.ad.controller;
+import iss.sa.team2.ad.dto.AnimeDTO;
+import iss.sa.team2.ad.dto.PredictionRequest;
+import iss.sa.team2.ad.enums.MyType;
 import iss.sa.team2.ad.interfacemethods.IAnimeService;
+import iss.sa.team2.ad.interfacemethods.IRegularUserAnimeService;
 import iss.sa.team2.ad.interfacemethods.IUserService;
 import iss.sa.team2.ad.model.Anime;
 import iss.sa.team2.ad.model.RegularUser;
+import iss.sa.team2.ad.model.RegularUserAnime;
 import iss.sa.team2.ad.model.User;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +36,10 @@ public class AnimeController {
     private IAnimeService animeService;
 	@Autowired
     private IUserService userService;
+	@Autowired
+    private IRegularUserAnimeService regularUserAnimeService;
+	@Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("/{id}")
     @ResponseBody
@@ -100,10 +115,134 @@ public class AnimeController {
        
         Optional<Anime> animeOptional = animeService.findById(animeId);
         Anime anime = animeOptional.get();
+        
+        RegularUserAnime regularUserAnime = new RegularUserAnime();
+        
+        regularUserAnime.setRegularUser(regularUser);
+        regularUserAnime.setAnime(anime);
+        regularUserAnime.setRating(-1);
+        regularUserAnime.setTime(LocalDateTime.now());
+        regularUserAnime.setType(MyType.History);
+        
+        regularUserAnimeService.saveRegularUserAnime(regularUserAnime);
+        
+        PredictionRequest request = new PredictionRequest();
+        request.setName("Death Note");
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<PredictionRequest> entity = new HttpEntity<>(request, headers);
+        
+        List<String> recommendedAnimes = restTemplate.postForObject("http://192.168.68.115:5000/recommend", entity, List.class);
 
+        model.addAttribute("recommendedAnimes", recommendedAnimes);
         model.addAttribute("anime", anime);
         model.addAttribute("regularUser", regularUser);
 
         return "animeDetails";
+    }
+    
+    
+    
+    @GetMapping("/management")
+    public String showAnimeManagementPage(Model model) {
+        List<AnimeDTO> animeDTOs = animeService.findAllAnimeDTOs();
+        if (animeDTOs.isEmpty()) {
+            model.addAttribute("message", "Now anime list is empty.");
+        } else {
+        	model.addAttribute("anime", new Anime());
+        	model.addAttribute("anime1", new Anime());
+        	model.addAttribute("animeDTOs", animeDTOs);
+        	model.addAttribute("showForm", false);
+        	model.addAttribute("showForm2", false);
+        }
+        return "animeManagement";
+    }
+    
+    @GetMapping("/search")
+	public String searchAnimes(@RequestParam("name") String name, Model model) {
+	    List<AnimeDTO> animeDTOs = animeService.searchByName(name);
+	    
+	    if (animeDTOs.isEmpty()) {
+	        model.addAttribute("message", "No matching results found.");
+	    } else {
+	        model.addAttribute("animeDTOs", animeDTOs);
+	    }
+	    
+	    return "animeManagement";
+	}
+    
+    @PostMapping("/create")
+    public String createAnime(@Valid @ModelAttribute("anime") Anime anime, BindingResult result,Model model) {
+        if (result.hasErrors()) {
+        	List<AnimeDTO> animeDTOs = animeService.findAllAnimeDTOs();
+            if (animeDTOs.isEmpty()) {
+                model.addAttribute("message", "Now anime list is empty.");
+            } else {
+            	model.addAttribute("anime", anime);
+            	model.addAttribute("anime1", anime);
+            	model.addAttribute("animeDTOs", animeDTOs);
+            	model.addAttribute("showForm", true);
+            	model.addAttribute("showForm2", false);
+            }
+            return "animeManagement"; 
+        }
+        animeService.save(anime);
+        return "redirect:/animes/management"; 
+    }
+    
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+    	List<AnimeDTO> animeDTOs = animeService.findAllAnimeDTOs();
+    	Optional<Anime> animeOptional = animeService.findById(id);
+    	Anime anime = animeOptional.get();
+    	model.addAttribute("anime", new Anime());
+        model.addAttribute("anime1", anime);
+        model.addAttribute("animeDTOs", animeDTOs);
+        model.addAttribute("showForm", false);
+    	model.addAttribute("showForm2", true);
+    	model.addAttribute("ID", id);
+        return "animeManagement"; 
+    }
+    
+    @PostMapping("/edit/{id}")
+    public String updateAnime(@Valid @ModelAttribute("anime") Anime anime, BindingResult result,Model model) {
+    	if (result.hasErrors()) {
+        	List<AnimeDTO> animeDTOs = animeService.findAllAnimeDTOs();
+            if (animeDTOs.isEmpty()) {
+                model.addAttribute("message", "Now anime list is empty.");
+            } else {
+            	model.addAttribute("anime", new Anime());
+            	model.addAttribute("anime1", anime);
+            	model.addAttribute("animeDTOs", animeDTOs);
+            	model.addAttribute("showForm2", true);
+            	model.addAttribute("showForm", false);
+            	model.addAttribute("ID", anime.getId());
+            }
+            return "animeManagement"; 
+        }
+    	animeService.save(anime);
+        return "redirect:/animes/management"; 
+    }
+    
+    @GetMapping("/pre_delete/{id}")
+    public String showDeleteConfirmation(@PathVariable("id") Long id, Model model) {
+    	List<AnimeDTO> animeDTOs = animeService.findAllAnimeDTOs();
+    	Optional<Anime> animeOptional = animeService.findById(id);
+    	Anime anime = animeOptional.get();
+    	model.addAttribute("anime", new Anime());
+        model.addAttribute("anime1", anime);
+        model.addAttribute("animeDTOs", animeDTOs);
+        model.addAttribute("showForm", false);
+    	model.addAttribute("showForm2",false);
+    	model.addAttribute("showForm3",true);
+    	model.addAttribute("delete_ID", id);
+        return "animeManagement"; 
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteAnime(@PathVariable("id") Long id) {
+        animeService.deleteById(id);
+        return "redirect:/animes/management";
     }
 }

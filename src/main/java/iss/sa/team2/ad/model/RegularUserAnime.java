@@ -3,6 +3,8 @@ package iss.sa.team2.ad.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import iss.sa.team2.ad.enums.MyType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,9 +19,11 @@ public class RegularUserAnime {
     private Long id;
 
     @ManyToOne
+    @JsonManagedReference 
     private RegularUser regularUser;
 
     @ManyToOne
+    @JsonManagedReference 
     private Anime anime;
     
     private float rating;

@@ -1,0 +1,499 @@
+body {
+	background-color: #F5F5F5;
+	font-family: 'Arial'; 
+	font-size: 18px;
+}
+
+/* 顶部栏 */
+.container-fluid {
+	width: 100%;
+	height: 100px;
+	margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+}
+
+.logo {
+	margin-left: 40px;
+	font-family: 'Snap ITC';
+	color: #20A3FB;
+	font-size: 48px;
+	font-weight: bold;
+}
+
+.nav_title {
+	margin-left: 50px;
+	font-weight: bold;
+	color: white;
+}
+
+.search_container {
+    display: flex;
+    align-items: center;
+}
+
+.animeTxt {
+	margin-left: 50px;
+	width: 760px;
+	height: 48px;
+	border: 0px;
+	background-color: #F5F5F5;
+	color: #797979;
+	border-radius: 5px;
+	padding: 10px;
+	font-size: 18px;
+}
+
+.search_icon {
+    margin-left: -44px;
+}
+
+.topBar_icon {
+	padding-top: 10px;
+	margin-left: 36px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category {
+	margin-top: 40px;
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #1EABDA;
+}
+
+.animePic {
+	height: 240px;
+	width: 170px;
+	position: relative;
+	border-radius: 5px;
+	background-color: white;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.35); /* 外部阴影 */
+}
+
+.operate {
+	height: 28px;
+	width: 100px;
+	margin-top: 20px;
+	margin-right: 72px;
+	background-color: white;
+	border: 1px solid #D4D4D4;
+	color: #797979;
+	border-radius: 5px;
+}
+
+.animeName {
+	margin-top: 10px; 
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
+	max-width: 100%;
+	color: #333333;
+}
+
+.background_blur {
+    width: 100%;
+    height: 42.6vh;
+    position: relative;
+    overflow: hidden;
+    background-size: cover; /* 等比放大图片，使其覆盖整个div */  
+	background-position: center; /* 将图片居中显示 */  
+	background-repeat: no-repeat; /* 不重复显示图片 */ 
+}
+
+.coverImg {
+	width: 100%;
+	border: 5px solid white;
+	border-radius: 10px;
+	background-color: white;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.35); /* 外部阴影 */
+}
+	
+.blur_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(100px); /* 根据需要调整模糊强度 */
+    z-index: 1;
+}
+
+.background_pic {
+	width: 100%;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+}
+
+.detailBody {
+	position: absolute;
+	z-index: 2;
+	top: 120px;
+    width: 80vw;
+    left: 10vw;
+}
+
+.animeTag {
+	background-color: transparent !important; 
+	border-radius: 5px !important;
+	border: 1px solid white !important;
+    padding: 6px 10px !important;
+    margin-right: 10px !important;
+    color: white !important;
+}
+
+.animeDetail1 {
+	height: 50px;
+	display: table;
+	padding-right: 15px;
+	float: left;
+	color: white;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.animeDetail1 div{
+	margin: 6px 0px;
+	overflow: hidden; /* 隐藏溢出部分 */
+    text-overflow: ellipsis; /* 显示省略号 */
+    white-space: nowrap; /* 不换行 */
+}
+
+.ratingTxt {
+	font-size: 42px;
+	font-weight: bold;
+	color: #F3A034;
+}
+
+.ratingDiv > div {
+	width: 50%;
+	float: left;
+}
+
+.star {
+    padding-top: 15px;
+    padding-left: 20px;
+    background-size: 16px !important;
+}
+
+.star-bar-show {
+	width: 81px !important;
+	height: 18px !important;
+	background-size: 16px !important;
+}
+
+.tagSpan {
+	display: table;
+	float: left;
+	line-height: 28px;
+}
+
+.operateIcon {
+	color: white;
+	font-size: 18px;
+	padding: 8px 16px;
+	margin-right: 10px;
+	border-radius: 5px;
+}
+
+.operateIcon > i {
+	margin: 0 5px;
+	margin-left: 0;
+}
+
+/* 白色页签栏 */
+.pageTabBar1 {
+	width: 100%;
+	height: 7.41vh;
+	background-color: white;
+	border-radius: 0 0 10px 10px;
+}
+
+.pageTabBar2 {
+	position: absolute;
+	width: 80vw;
+	height: 7.41vh;
+	left: 10vw;
+	background-color: white;
+}
+
+.tagLine1 {
+	width: 129.56px;
+	height: 5px;
+	bottom: 0;
+	background-color: #1EABDA;
+	border-radius: 5px;
+}
+
+.tagLine2 {
+	width: 91.03px;
+	height: 5px;
+	bottom: 0;
+	background-color: #1EABDA;
+	border-radius: 5px;
+	display: none;
+}
+
+.tag_change {
+	display: block;
+    font-size: 21px;
+    height: calc(100% - 4px);
+    line-height: 66px;
+}
+
+.followBtn {
+	background-color: rgba(243, 99, 146, 1);
+}
+
+.followBtn_active{
+	background-color: #A3A0A0 !important;
+}
+
+/* 角色和制作人员名单 */
+.characterAndStaff{
+	margin-top: 20px;
+	margin-left: 15px !important;
+	position: absolute;
+	width: 80vw;
+	height: 48.1vh;
+	left: 10vw;
+}
+
+.characterAndStaff .row .col-md-4,.characterAndStaff .row .col-md-8{
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.characterAndStaff .row .col-md-4{
+	margin-top: 40px !important;
+}
+
+.characterAndStaff .row .col-md-4 .col-md-4{
+	margin-top: 0px !important;
+}
+
+.character {
+	width: 67.5%;
+	height: 48.1vh;
+	background-color: white;
+	border-radius: 10px;
+	display: table; 
+	float: left;
+}
+
+.staff {
+	margin-left: 20px;
+    width: 30.5%;
+	height: 48.1vh;
+	background-color: white;
+	border-radius: 10px;
+	display: table; 
+	float: left;
+}
+
+.characterTitle {
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.animeDetail-2 {
+	height: 60px;
+	padding-right: 15px;
+	float: left;
+	color: white;
+	font-size: 13px;
+	font-weight: bold;
+	display: -webkit-box;  
+	  -webkit-line-clamp: 3;  
+	  -webkit-box-orient: vertical;  
+	  overflow: hidden;  
+	  text-overflow: ellipsis; 
+}
+
+.staffTxt > p {
+	margin: 0;
+	padding: 0;
+	padding-left: 40px;
+	box-sizing: border-box;
+	line-height: 32px;
+}
+
+/*  评论区 */
+.comment {
+	margin-top: 20px;
+	margin-left: 15px !important;
+	position: absolute;
+	width: 80vw;
+	height: 48.1vh;
+	left: 10vw;
+	background-color: white;
+	display: none;
+}
+
+.writeComment {
+	float: right;
+	width: 140px;
+	height: 36px;
+	border-radius: 5px;
+	background-color: white;
+	border: 1px solid #1EABDA;
+	color: #1EABDA;
+}
+
+.commentBox {
+    margin-top: 20px;
+    margin-left: 40px !important;
+    position: relative;
+    width: calc(100% - 100px);
+    height: 140px;
+    background-color: white;
+    border-bottom: 1px solid #D4D4D4;
+}
+
+/* 评分弹窗 */
+.overlay {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(47, 79, 79);
+    opacity: 0.607843;
+    z-index: 1000;
+    display: none;
+}
+
+.scoreWindow {
+	padding: 40px 60px;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 720px;
+    height: 540px;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 1001;
+    display: none;
+}
+
+.coverImg_score {
+	max-width: 100%;
+}
+
+.confirm {
+	margin-right: 16px;
+	height: 36px;
+	width: 80px;
+	border-radius: 5px;
+	border: 0;
+	color: white;
+	background: linear-gradient(to right, #2D85E9, #38ABF6);
+}
+
+.cancel {
+	height: 36px;
+	width: 80px;
+	border-radius: 5px;
+	border: 1px solid #287DDE;
+	color: #287DDE;
+	background: white;
+}
+
+.scoreSelect {
+    width: 100px;
+    height: 30px;
+    border-radius: 30px;
+    padding: 0 8px;
+    background: #F3A034;
+    border: 0;
+    font-size: 13px;
+}
+
+.circle {
+	top: 4px;
+	left: 4px;
+	height: 22px;
+	width: 22px;
+	position: absolute;
+	border-radius: 22px;
+	background-color: white;
+	text-align: center;
+	line-height: 22px;
+	overflow: hidden;  /* 隐藏超出容器的内容 */  
+	font-size: 15px;
+}
+
+option {
+	background-color: white;
+	font-size: 12px;
+}
+
+.textarea {
+	height: 160px !important;
+	margin: 20px 0 !important;
+}
+
+.textarea-numberbar {
+	bottom: 20px !important;
+}
+
+/* 收藏弹窗 */
+.favouriteWindow {
+	padding: 20px 60px;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 540px;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 1002;
+    display: none;
+}
+
+.favouriteWindowTitle {
+	font-size: 24px;
+    display: block;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.favouriteItem > .row{
+	margin-bottom: 40px;
+}
+
+.createBtn{
+	display: block;
+    font-size: 18px;
+    border: 1px solid #2D85E9;
+    height: 40px;
+    width: 140px;
+    float: left;
+    line-height: 40px;
+    text-align: center;
+    background: #D9F1F9;
+    color: #1EABDA;
+    border-left: 0;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.create_txt {
+	padding-left: 10px;
+	width: calc(100% - 140px);
+	height: 40px;
+	border: 1px solid #2D85E9;
+	box-sizing: border-box;
+	float: left;
+	border-radius: 5px 0 0 5px;
+}

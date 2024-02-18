@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/management.css">
+<script th:src="@{/js/blacklistManagement.js}" th:inline="javascript"></script>
+
+<head>
+	<title>Forbidden words Management</title>
+</head>
+
+<body>
+	<!-- 导航栏 -->
+	<div class="container-fluid">
+		<span class="logo"><a th:href="@{'/user/homePage'}">AniRec </a></span>
+		<span><a class="nav_title" th:href="@{'/animes/management'}">Anime </a></span>
+		<span><a class="nav_title" th:href="@{'/animetags/management'}">Tags </a></span>
+		<span><a class="nav_title" th:href="@{'/user/management'}">Role </a></span>
+		<span><a class="nav_title" th:href="@{'/comments/management'}">Comment </a></span>
+		<span><a class="nav_title" th:href="@{'/blacklists/management'}">Forbidden Words </a></span>
+		<span><a class="nav_title2" th:href="@{'/user/logout'}">Log out </a></span>
+	</div>
+
+	<div class="container">
+		<h3 class="page_title">Forbidden words</h3>
+
+		<div class="searchBar">
+			<input class="nicknameTxt" id="name" type="text" placeholder="word">
+			<button id="searchButton" class="searchBtn" type="submit">Search</button>
+			<button class="resetBtn" type="button" onclick="resetSearch()">Reset</button>
+			<button class="addBtn" id="addblacklistBtn" type="submit" onclick="openAddBlacklistModel()">Add</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-11">
+				<form id="blacklistTable" action="/management" method="post">
+					<div th:if="${message}" class="alert alert-info" role="alert" th:text="${message}"></div>
+					<table class="table table-bordered table-hover" th:if="${blacklists}">
+						<tr>
+							<th style="width:100px">Index</th>
+							<th style="width:600px">Word</th>
+							<th style="width:150px">Operate</th>
+						</tr>
+						<tr th:each="blacklist : ${blacklists}">
+							<td th:text="${blacklist.id}"></td>
+							<td th:text="${blacklist.words}"></td>
+							<td>
+								<button class="editBtn">Edit</button>
+								<button class="deleteBtn">Delete</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+
+		<!-- 添加弹窗 -->
+		<div class="overlay" id="overlay"></div>
+		<div class="addWindow" id="addWindow">
+			<div class="topBar">
+				<label>Add forbidden words</label>
+			</div>
+			<form id="addBlacklistForm">
+				<label for="name"
+					style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Words:</label>
+				<input type="text" id="name" name="name"><br><br>
+				<div class="operationBtns">
+					<button type="submit" id="addBlacklistSubmitBtn" onclick=" addBlacklist()">Submit</button>
+					<button onclick="closeAddBlacklistModel()" id="addCancelBtn" class="cancelBtn">Cancel</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- 删除弹窗 -->
+		<div class="overlay" id="overlay"></div>
+		<div class="deleteWindow" id="deleteWindow">
+			<div class="topBar">
+				<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Tips</label>
+			</div>
+			<p style="font-size:18px; margin-left:80px; margin-top:50px">This Tag will be deleted</p>
+			<p style="font-size:16px; font-weight:bold; color:#797979; margin-left:80px">Notice：“Unable to recover after
+				deletion, please operate with caution!”</p>
+			<div class="operationBtns">
+				<button onclick="confirm()" class="confirmBtn">Confirm</button>
+				<button onclick="closeDeleteAnimetagModel()" id="deleteCancelBtn" class="cancelBtn">Cancel</button>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+
+</html>

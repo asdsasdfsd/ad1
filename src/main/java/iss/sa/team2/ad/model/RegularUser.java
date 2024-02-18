@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import iss.sa.team2.ad.enums.Gender;
 import iss.sa.team2.ad.enums.UserPosition;
 import iss.sa.team2.ad.enums.UserStatus;
@@ -63,6 +65,7 @@ public class RegularUser extends User {
     private Set<Attendance> attendances = new HashSet<>();
 
     @OneToMany(mappedBy = "regularUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private Set<RegularUserAnime> regularUserAnimes = new HashSet<>();
     
     @OneToMany(mappedBy = "regularUser", cascade = CascadeType.ALL, orphanRemoval = true)

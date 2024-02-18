@@ -1,5 +1,6 @@
 package iss.sa.team2.ad.interfacemethods;
 
+import iss.sa.team2.ad.dto.AnimeDTO;
 import iss.sa.team2.ad.model.Anime;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface IAnimeService {
     List<Anime> getLatest6Anime();
     List<Anime> findAllByOrderByAverageRatingDesc();
     List<Anime> findAllByOrderByReleaseDateDesc();
+    List<AnimeDTO> findAllAnimeDTOs();
+	List<AnimeDTO> searchByName(String name);
 }

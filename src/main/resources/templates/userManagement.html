@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/management.css">
+<script th:src="@{/js/userManagement.js}" th:inline="javascript"></script>
+
+<head>
+	<title>User Management</title>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			searchByName();
+		});
+
+	</script>
+</head>
+
+<body>
+	<!-- 导航栏 -->
+	<div class="container-fluid">
+		<span class="logo"><a th:href="@{'/user/homePage'}">AniRec </a></span>
+		<span><a class="nav_title" th:href="@{'/animes/management'}">Anime </a></span>
+		<span><a class="nav_title" th:href="@{'/animetags/management'}">Tags </a></span>
+		<span><a class="nav_title" th:href="@{'/user/management'}">Role </a></span>
+		<span><a class="nav_title" th:href="@{'/comments/management'}">Comment </a></span>
+		<span><a class="nav_title" th:href="@{'/blacklists/management'}">Forbidden Words </a></span>
+		<span><a class="nav_title2" th:href="@{'/user/logout'}">Log out </a></span>
+	</div>
+
+	<div class="container">
+		<label class="page_title">Role Management</label>
+
+		<div class="searchBar">
+			<input class="nicknameTxt" id="name" type="text" placeholder="account">
+			<button id="searchButton" class="searchBtn" type="submit">Search</button>
+			<button class="resetBtn" type="button" onclick="resetSearch()">Reset</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-11">
+				<form id="roleTable" action="/management" method="post">
+					<table class="table table-bordered table-hover">
+						<tr>
+							<th style="width:100px">UID</th>
+							<th style="width:200px">Account</th>
+							<th style="width:200px">Role</th>
+							<th style="width:200px">Account Status</th>
+							<th style="width:150px">Operate</th>
+						</tr>
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}">UID</td>
+							<td>
+								<span th:text="${user.account}">Name</span>
+							</td>
+							<td th:text="${user.position}">Role</td>
+							<td th:text="${user.status}">Account Status</td>
+							<td>
+								<button onclick="setWindow(event)" class="editBtn">Set</button>
+								<button class="banBtn">Ban</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 设置弹窗 -->
+	<div class="overlay" id="overlay"></div>
+	<div class="setWindow" id="setWindow">
+		<div class="topBar">
+			<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Tips</label>
+		</div>
+		<div class="operationBtns">
+			<button onclick="confirm()" class="confirmBtn">Confirm</button>
+			<button onclick="cancel()" class="cancelBtn">Cancel</button>
+		</div>
+	</div>
+
+	<!-- 封禁弹窗 -->
+	<div class="overlay" id="overlay"></div>
+	<div class="banWindow" id="banWindow">
+		<div class="topBar">
+			<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Prohibition</label>
+		</div>
+		<table style="margin-top:30px; border-collapse:separate; border-spacing:20px;">
+			<tr>
+				<td style="text-align:right;"><span style="font-size:18px; margin-left:80px; margin-top:50px;">Nickname:
+					</span></td>
+				<td><span id="banUsername" style="font-size:18px; margin-left:20px;">User name</span></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;"><span style="font-size:18px; margin-left:80px; margin-top:50px;">Days:
+					</span></td>
+				<td>
+					<select style="margin-left:20px; height:36px; width:180px; font-size:18px; border-radius:5px;">
+						<option>7</option>
+						<option>30</option>
+						<option>180</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<div class="operationBtns" style="margin-top:20px;">
+			<button onclick="confirm2()" class="confirmBtn">Confirm</button>
+			<button onclick="cancel2()" class="cancelBtn">Cancel</button>
+		</div>
+	</div>
+
+</body>
+
+</html>

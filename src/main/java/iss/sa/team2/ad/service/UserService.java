@@ -42,6 +42,16 @@ public class UserService implements IUserService {
     public String findUserIdByAccountAndPassword(String account, String password) {
         return userRepository.findUserIdByAccountAndPassword(account, password);
     }
-    
-    
+
+	public RegularUser findByUsernameAndPassword(String username, String password) {	
+		return userRepository.findByUsernameAndPassword(username,password);
+	}
+
+	@Override
+	public List<User> searchByAccount(String account) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+      
 }

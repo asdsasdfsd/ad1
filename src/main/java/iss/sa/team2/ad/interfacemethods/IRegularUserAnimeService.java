@@ -1,5 +1,6 @@
 package iss.sa.team2.ad.interfacemethods;
 
+import iss.sa.team2.ad.enums.MyType;
 import iss.sa.team2.ad.model.RegularUserAnime;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface IRegularUserAnimeService {
     void deleteRegularUserAnime(Long id);
     
     List<RegularUserAnime> getAllRegularUserAnimes();
+
+	List<RegularUserAnime> findAllByUserIdAndType(String userId, MyType type);
 }

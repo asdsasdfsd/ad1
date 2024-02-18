@@ -15,7 +15,8 @@ public interface AnimetagRepository extends JpaRepository<Animetag, Long> {
 
     @Query("Select t from Animetag t where t.tagName like %:tagName%")
     List<Animetag> findByNameContaining(@Param("tagName") String tagName);
-//    
+    
+    
 //    @Query("SELECT COUNT(a) FROM Anime a JOIN a.tags t WHERE t.id = :animetagId")
 //    int countAnimesByAnimetagId(@Param("animetagId") Long animetagId);
 

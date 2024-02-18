@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/homepage.css">
+<link rel="stylesheet" type="text/css" href="/css/H-ui.css">
+<link rel="stylesheet" type="text/css" href="/Hui-iconfont/1.0.8/iconfont.css">
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+		
+		<style>
+			.frow>.col-md-4{
+				margin-top: 20px;
+			}
+		</style>
+		
+<body style="background: #f5f5f5;">
+		<!-- 顶部栏 -->
+		<div class="container-fluid">
+			<span class="logo">AniRec</span>
+			<span class="topTitle"><a class="nav_title" href="/animes/animelist">Anime </a></span>
+			<span class="topTitle"><a class="nav_title" href="/user/homePage">Home Page</a></span>
+			<div class="search_container">
+			    <input class="animeTxt" id="animename" type="text" placeholder="Search">
+			    <div class="search_icon">
+			        <img src="/images/search.png" alt="Search Icon">
+			    </div>
+			</div>
+			
+			<!-- 头像 -->
+			<a href="/user/homePage" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon" style="margin-left:100px; padding-top: 0px;">
+						<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border:3px solid white; border-radius: 50%;">
+					</div>
+				</span>
+			</a>
+			
+			<!-- 追番 -->
+			<a href="/user/follow" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/follow_black.jpg" alt="follow Icon">
+						<p>Follow</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 收藏 -->
+			<a href="/user/favourite" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/favourite_black.jpg" alt="follow Icon">
+						<p>Favourite</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 历史 -->
+			<a href="/user/history" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/history_black.jpg" alt="follow Icon">
+						<p>History</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 登出 -->
+			<a href="/user/login" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/logout_black.jpg" alt="follow Icon">
+						<p>Logout</p>
+					</div>
+				</span>
+			</a>
+		</div>
+		<div class="main">
+			<div class="main1">
+				<div class="m1-top">
+					<div class="m1-t-img">
+						<img src="/images/userbackground.jpg" alt="" srcset="" />
+					</div>
+					<div class="m1-t-body">
+						<div class="m1-t-body-t">
+							<a href="" style="font-weight:normal; border-radius:5px;">Change Background</a>
+						</div>
+						<div class="m1-t-body-b">
+							<div style="display: table;" class="l">
+								<div style="margin-left:10px; margin-right: 20px;" class="l">
+									<img src="/images/userphoto.jpg" style="border: 2px solid white;" alt="" srcset="" />
+								</div>
+								<div class="r">
+									<div style="font-size:24px; font-weight:bold; text-align: left; color: white;">
+										<span>Test Account</span>
+										<span class="sex"><img src="/images/male.png" style/></span>
+									</div>
+									<div style="color:#E8E8E8; font-size:16px; text-align: left;">
+										<span>This is a self-introduction</span>
+									</div>
+								</div>
+							</div>
+							<div class="r">
+								<div style="font-size: 18px;color: #E8E8E8;"><span>UID：</span><span>917000</span></div>
+								<div style="font-size: 18px;color: #E8E8E8;"><span>Birthday：</span><span>1999-10-18</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="m1-t-nav">
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/homePage">
+								<img src="/images/homepage.jpg" alt="" style="margin-right:12px;">								
+								Home Page
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/follow">
+								<img src="/images/follow.jpg" alt="" style="margin-right:12px;">								
+								Follow
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a class="nav-active" href="/user/favourite">
+								<img src="/images/favourite.jpg" alt="" style="margin-right:12px;">							
+								Favorites
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/profile">
+								<img src="/images/profile.jpg" alt="" style="margin-right:12px;">
+								Profile
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main2" style="height:64.82vh;">
+				<div style="padding: 10px 0;margin-bottom: 20px;">
+					<div style="margin-bottom: 20px;padding-bottom: 15px;" class="farow">
+						<div class="f-create">
+							<span onclick="create()" style="cursor: pointer;;border-radius: 5px;padding: 3px 15px;border: 1px solid #333;font-size: 18px;">Create</span>
+						</div>
+						<div style="height: 100px;margin-bottom: 20px;" class="row">
+							<span onclick="to(1)">
+								<div style="text-align: right;" class="col-md-2">
+									<img style="height: 100px;width:100px;border-radius: 8px" src="./images/anime4.jpg" alt="" />
+								</div>
+								<div style="" class="col-md-6">
+									<div class="f-tit">标题/数量</div>
+									<div class="f-time">描述</div>
+								</div>
+							</span>
+							<div style="height: 100px;box-sizing: border-box;padding-top: 37px;" class="col-md-4">
+								<a style="background: #f8971c;color: #fff;border: none;" href="javascript:" class="t-bq">
+									Delete
+								</a>
+								<a onclick="selbox()" href="javascript:" style="color: #fff;right: 90px;background: #2e8aea;border: none;" class="t-bq">
+									Edit
+								</a>
+							</div>
+							
+						</div>
+						<div style="height: 100px;margin-bottom: 20px;" class="row">
+							<span onclick="to(2)">
+								<div style="text-align: right;" class="col-md-2">
+									<img style="height: 100px;width:100px;border-radius: 8px" src="./images/anime4.jpg" alt="" />
+								</div>
+								<div style="" class="col-md-6">
+									<div class="f-tit">标题/数量</div>
+									<div class="f-time">描述</div>
+								</div>
+							</span>
+							<div style="height: 100px;box-sizing: border-box;padding-top: 37px;" class="col-md-4">
+								<a style="background: #f8971c;color: #fff;border: none;" href="javascript:" class="t-bq">
+									Delete
+								</a>
+								<a onclick="selbox()" href="javascript:" style="color: #fff;right: 90px;background: #2e8aea;border: none;" class="t-bq">
+									Edit
+								</a>
+							</div>
+							
+						</div>
+						<div style="height: 100px;margin-bottom: 20px;" class="row">
+							<span onclick="to(3)">
+								<div style="text-align: right;" class="col-md-2">
+									<img style="height: 100px;width:100px;border-radius: 8px" src="./images/anime4.jpg" alt="" />
+								</div>
+								<div style="" class="col-md-6">
+									<div class="f-tit">标题/数量</div>
+									<div class="f-time">描述</div>
+								</div>
+							</span>
+							<div style="height: 100px;box-sizing: border-box;padding-top: 37px;" class="col-md-4">
+								<a style="background: #f8971c;color: #fff;border: none;" href="javascript:" class="t-bq">
+									Delete
+								</a>
+								<a onclick="selbox()" href="javascript:" style="color: #fff;right: 90px;background: #2e8aea;border: none;" class="t-bq">
+									Edit
+								</a>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div id="tcbox">
+			<div class="tc-box">
+				<form class="form-horizontal" role="form">
+					<h2 style="border-bottom: 1px solid #666;height: 50px;">Create New Favorites</h2>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Cover Photo</label>
+						<div class="col-sm-10">
+							<label for="tp" class="col-sm-2 control-label">
+								<i style="font-size: 72px;" class="icon Hui-iconfont"></i>
+								<input type="file" id="tp" name="tp" style="display: none;" />
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+					    <label for="name" class="col-sm-2 control-label"><span style="color: #f00;">*</span>Name</label>
+					    <div class="col-sm-10">
+							<input type="text" class="form-control" id="name" placeholder="">
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="" class="col-sm-2 control-label">名字</label>
+					    <div class="col-sm-10">
+							<textarea class="form-control" rows="3"></textarea>
+					    </div>
+					</div>
+					<div style="text-align: right;padding: 50px;" class="out">
+						<span onclick="gb()" style="padding: 8px 15px;" class="label label-primary">Save</span>
+						<span onclick="gb()" style="padding: 8px 15px;" class="label label-default">Cancel</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+	//
+	function to(id){
+		location.href='./favorites-info.html?id='+id;
+	}
+	
+	// 打开弹窗
+	function create(){
+		$('#tcbox').show();
+	}
+	// 关闭弹窗
+	function gb(){
+		$('#tcbox').hide();
+	}
+	
+	var isshow=false;
+	function selbox(){
+		if(isshow==false){
+			$('.chbox').css('display','block');
+			isshow=true;
+		}else{
+			$('.chbox').css('display','none');
+			isshow=false;
+		}
+	}
+</script>

@@ -1,5 +1,6 @@
 package iss.sa.team2.ad.service;
 
+import iss.sa.team2.ad.enums.MyType;
 import iss.sa.team2.ad.interfacemethods.IRegularUserAnimeService;
 import iss.sa.team2.ad.model.RegularUserAnime;
 import iss.sa.team2.ad.repository.RegularUserAnimeRepository;
@@ -36,4 +37,9 @@ public class RegularUserAnimeService implements IRegularUserAnimeService {
     public List<RegularUserAnime> getAllRegularUserAnimes() {
         return regularUserAnimeRepository.findAll();
     }
+
+	@Override
+	public List<RegularUserAnime> findAllByUserIdAndType(String userId, MyType type) {
+		return regularUserAnimeRepository.findAllByUserIdAndType(userId, type);
+	}
 }

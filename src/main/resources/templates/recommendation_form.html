@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>动漫推荐</title>
+</head>
+<body>
+    <h2>获取动漫推荐</h2>
+    <form action="#" th:action="@{/getRecommendation}" th:object="${predictionRequest}" method="post">
+        <p>输入动漫名称: <input type="text" th:field="*{name}" /></p>
+        <p><input type="submit" value="提交" /></p>
+    </form>
+</body>
+</html>

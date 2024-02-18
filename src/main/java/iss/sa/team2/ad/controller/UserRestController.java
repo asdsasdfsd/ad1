@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import iss.sa.team2.ad.interfacemethods.IUserService;
+import iss.sa.team2.ad.model.RegularUser;
 import iss.sa.team2.ad.model.User;
-import iss.sa.team2.ad.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class UserRestController {
 
 	@Autowired
-    private UserService userService;
+    private IUserService userService;
 
 
     @GetMapping("/{id}")
@@ -42,5 +43,10 @@ public class UserRestController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> userList = userService.getAllUsers();
         return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+    
+    @PostMapping("/login")
+    public RegularUser getUserByCredentials(@RequestParam("username") String account,@RequestParam("password") String password) {
+    	 return userService.findByUsernameAndPassword(account, password);
     }
 }

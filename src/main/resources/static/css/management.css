@@ -208,3 +208,39 @@ table.table-bordered th {
     z-index: 1001;
     display: none;
 }
+
+.addWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001; 
+    display: none;
+    width:672px;
+    height:800px;
+    background-color: white;
+}
+
+.editWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001; 
+    display: none;
+    width:672px;
+    height:800px;
+    background-color: white;
+}
+
+.deleteWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001; 
+    display: none;
+    width:672px;
+    height:800px;
+    background-color: white;
+}

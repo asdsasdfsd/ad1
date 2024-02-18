@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" type="text/css" href="/CSS/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="/CSS/management.css">
-<script th:src="@{/Js/commentManagement.js}"></script>
-<script th:src="@{/Js/bootstrap.js}"></script>
-<script th:src="@{/Js/jquery-1.12.4.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/management.css">
+<script th:src="@{/js/commentManagement.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+
+<title>Comment Management</title>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		searchByName();
+	});
+
+</script>
+</head>
 
 <body>
 	<!-- 导航栏 -->
 	<div class="container-fluid">
-		<span class="logo">AniRec</span>
-		<span class="nav_title"><a href="#">Anime </a></span>
-		<span class="nav_title"><a href="#">Tags </a></span>
-		<span class="nav_title"><a href="#">Role </a></span>
-		<span class="nav_title"><a href="#">Forbidden Words </a></span>
-		<span class="nav_title2 text-right"><a href="#">Log out </a></span>
+		<span class="logo"><a th:href="@{'/user/homePage'}">AniRec </a></span>
+		<span><a class="nav_title" th:href="@{'/animes/management'}">Anime </a></span>
+		<span><a class="nav_title" th:href="@{'/animetags/management'}">Tags </a></span>
+		<span><a class="nav_title" th:href="@{'/user/management'}">Role </a></span>
+		<span><a class="nav_title" th:href="@{'/comments/management'}">Comment </a></span>
+		<span><a class="nav_title" th:href="@{'/blacklists/management'}">Forbidden Words </a></span>
+		<span><a class="nav_title2" th:href="@{'/user/logout'}">Log out </a></span>
 	</div>
-		
+
 	<div class="container">
 		<label class="page_title">Comment Management</label>
 		<div class="searchBar">
-			<input class="nicknameTxt" id="nickname" type="text" value="Nickname">
-			<input class="titleTxt" id="title" type="text" value="Title">
-			<button class="searchBtn" type="submit" onclick="searchByNickname()">Search</button>
+			<input class="nicknameTxt" id="name" type="text" placeholder="User Account">
+			<input class="titleTxt" id="title" type="text" placeholder="Title">
+			<button id="searchButton" class="searchBtn" type="submit">Search</button>
 			<button class="resetBtn" type="submit" onclick="resetSearch()">Reset</button>
 		</div>
 		<div class="row">
@@ -31,22 +41,24 @@
 					<table class="table table-bordered table-hover">
 						<tr>
 							<th style="width:100px">UID</th>
-							<th style="width:220px">User Name</th>
-							<th style="width:180px">Title</th>
+							<th style="width:300px">User Account</th>
+							<th style="width:300px">Title</th>
 							<th style="width:600px">Content</th>
 							<th style="width:180px">Time</th>
-							<th style="width:120px">Operate</th>
+							<th style="width:60px">Operate</th>
 						</tr>
 						<tr th:each="comment : ${comments}">
-						    <td th:text="${comment.regularUser.id}">UID</td>
-						    <td>
-						    	<span th:text="${comment.regularUser.name}">User Name</span>
-						    	<button th:attr="onclick='banWindow(event, \'' + ${comment.regularUser.name} + '\')'" class="banBtn">Ban</button>
-						    </td>
-						    <td th:text="${comment.anime.name}">Title</td>
-						    <td th:text="${comment.content}">Content</td>
-						    <td th:text="${comment.comment_time}">Time</td>
-						    <td><button onclick="deleteWindow(event)" class="deleteBtn">Delete</button></td>				  
+							<td th:text="${comment.regularUser.id}">UID</td>
+							<td>
+								<span th:text="${comment.regularUser.account}">User Account</span>
+								<button
+									th:attr="onclick='banWindow(event, \'' + ${comment.regularUser.userName} + '\')'"
+									class="banBtn">Ban</button>
+							</td>
+							<td th:text="${comment.anime.name}">Title</td>
+							<td th:text="${comment.content}">Content</td>
+							<td th:text="${#temporals.format(comment.comment_time, 'yyyy-MM-dd HH:mm')}">Time</td>
+							<td><button onclick="deleteWindow(event)" class="deleteBtn">Delete</button></td>
 						</tr>
 					</table>
 				</form>
@@ -61,13 +73,14 @@
 			<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Tips</label>
 		</div>
 		<p style="font-size:18px; margin-left:80px; margin-top:50px">This comment will be deleted</p>
-		<p style="font-size:16px; font-weight:bold; color:#797979; margin-left:80px">Notice：“Unable to recover after deletion, please operate with caution!”</p>
+		<p style="font-size:16px; font-weight:bold; color:#797979; margin-left:80px">Notice：“Unable to recover after
+			deletion, please operate with caution!”</p>
 		<div class="operationBtns">
 			<button onclick="confirm()" class="confirmBtn">Confirm</button>
 			<button onclick="cancel()" class="cancelBtn">Cancel</button>
 		</div>
 	</div>
-	
+
 	<!-- 封禁弹窗 -->
 	<div class="overlay" id="overlay"></div>
 	<div class="banWindow" id="banWindow">
@@ -76,11 +89,13 @@
 		</div>
 		<table style="margin-top:30px; border-collapse:separate; border-spacing:20px;">
 			<tr>
-				<td style="text-align:right;"><span style="font-size:18px; margin-left:80px; margin-top:50px;">Nickname: </span></td>
+				<td style="text-align:right;"><span style="font-size:18px; margin-left:80px; margin-top:50px;">Nickname:
+					</span></td>
 				<td><span id="banUsername" style="font-size:18px; margin-left:20px;">User name</span></td>
 			</tr>
 			<tr>
-				<td style="text-align:right;"><span style="font-size:18px; margin-left:80px; margin-top:50px;">Days: </span></td>
+				<td style="text-align:right;"><span style="font-size:18px; margin-left:80px; margin-top:50px;">Days:
+					</span></td>
 				<td>
 					<select style="margin-left:20px; height:36px; width:180px; font-size:18px; border-radius:5px;">
 						<option>7</option>
@@ -95,6 +110,7 @@
 			<button onclick="cancel2()" class="cancelBtn">Cancel</button>
 		</div>
 	</div>
-	
+
 </body>
+
 </html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/management.css">
+<script th:src="@{/js/animeManagement.js}"  th:inline="javascript"></script>
+    
+<body>
+	<!-- 导航栏 -->
+	<div class="container-fluid">
+		<span class="logo"><a th:href="@{'/user/homePage'}">AniRec </a></span>
+		<span><a class="nav_title" th:href="@{'/animes/management'}">Anime </a></span>
+		<span><a class="nav_title" th:href="@{'/animetags/management'}">Tags </a></span>
+		<span><a class="nav_title" th:href="@{'/user/management'}">Role </a></span>
+		<span><a class="nav_title" th:href="@{'/comments/management'}">Comment </a></span>
+		<span><a class="nav_title" th:href="@{'/blacklists/management'}">Forbidden Words </a></span>
+		<span><a class="nav_title2" th:href="@{'/user/logout'}">Log out </a></span>
+	</div>
+
+	<div class="container">
+		<label class="page_title">Anime Management</label>
+		<div class="searchBar">
+			<input class="nicknameTxt" id="name" type="text" placeholder="Name">
+			<button id="searchButton" class="searchBtn" type="submit" onclick="searchByName()">Search</button>
+			<button class="resetBtn" type="button" onclick="resetSearch()">Reset</button>
+			<button class="addBtn" id="addBtn" type="submit" onclick="openAddAnimeModel()">Add</button>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-11">
+				<form id="commentTable" action="/management" method="post">
+					<table class="table table-bordered table-hover">
+						<tr>
+							<th style="width:100px">Index</th>
+							<th style="width:220px">Name</th>
+							<th style="width:100px">Rating</th>
+							<th style="width:100px">Followed</th>
+							<th style="width:100px">Favourites</th>
+							<th style="width:100px">Release data</th>
+							<th style="width:150px">Operate</th>
+						</tr>
+						<tr th:each="anime : ${animeDTOs}">
+							<td th:text="${anime.id}">Index</td>
+							<td th:text="${anime.name}">Name</td>
+							<td th:text="${anime.averageRating}">Rating</td>
+							<td th:text="${anime.followed}">Followed</td>
+                            <td th:text="${anime.favorites}">Favourites</td>
+							<td th:text="${#temporals.format(anime.releaseDate, 'yyyy-MM-dd')}">Release data</td>
+							<td>
+								<button onclick="openAddAnimeModel()" class="editBtn">
+									<a th:href="@{/animes/edit/{id}(id=${anime.id})}">Edit</a>
+								</button>
+								<button onclick="openDeleteAnimeModel()" class="deleteBtn" data-anime-id="${anime.id}">
+									<a th:href="@{/animes/pre_delete/{id}(id=${anime.id})}">Delete</a>
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		
+		
+		<!-- 添加弹窗 -->
+		<div class="overlay" id="overlay"></div>
+			<div class="addWindow" id="addWindow" th:style="'display:' + (${showForm} ? 'block' : 'none') + ';'">
+				<div class="topBar">
+					<label>Add Anime</label>
+				</div>
+				<form th:action="@{/animes/create}" th:object="${anime}" method="post">
+				    <div>
+				        <label for="name">Name:</label>
+				        <input type="text" id="name" th:field="*{name}" />
+				        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				    </div>
+				    
+				    <div>
+				        <label for="cover">Cover:</label>
+				        <input type="text" id="cover" th:field="*{cover}" />
+				        <span class="error" th:if="${#fields.hasErrors('cover')}" th:errors="*{cover}"></span>
+				    </div>
+				    
+				    <div>
+				        <label for="description">Description:</label>
+				        <textarea id="description" th:field="*{description}" rows="4"></textarea>
+				        <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="averageRating">Average Rating:</label>
+				        <input type="number" step="0.1" id="averageRating" th:field="*{averageRating}" />
+				        <span class="error" th:if="${#fields.hasErrors('averageRating')}" th:errors="*{averageRating}"></span>
+				    </div>
+				    
+				    <div>
+				        <label for="videoPlaybackSource">Video Playback Source:</label>
+				        <input type="text" id="videoPlaybackSource" th:field="*{videoPlaybackSource}" />
+				        <span class="error" th:if="${#fields.hasErrors('videoPlaybackSource')}" th:errors="*{videoPlaybackSource}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="releaseDate">Release Date:</label>
+				        <input type="datetime-local" id="releaseDate" th:field="*{releaseDate}" />
+				        <span class="error" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="episodes">Episodes:</label>
+				        <input type="number" id="episodes" th:field="*{episodes}" />
+				        <span class="error" th:if="${#fields.hasErrors('episodes')}" th:errors="*{episodes}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="director">Director:</label>
+				        <input type="text" id="director" th:field="*{director}" />
+				        <span class="error" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="script">Script:</label>
+				        <input type="text" id="script" th:field="*{script}" />
+				        <span class="error" th:if="${#fields.hasErrors('script')}" th:errors="*{script}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="characterDesign">Character Design:</label>
+				        <input type="text" id="characterDesign" th:field="*{characterDesign}" />
+				        <span class="error" th:if="${#fields.hasErrors('characterDesign')}" th:errors="*{characterDesign}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="sakugaDirector">Sakuga Director:</label>
+				        <input type="text" id="sakugaDirector" th:field="*{sakugaDirector}" />
+				        <span class="error" th:if="${#fields.hasErrors('sakugaDirector')}" th:errors="*{sakugaDirector}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="productionCompany">Production Company:</label>
+				        <input type="text" id="productionCompany" th:field="*{productionCompany}" />
+				        <span class="error" th:if="${#fields.hasErrors('productionCompany')}" th:errors="*{productionCompany}"></span>
+				    </div>
+				
+				    <div class="operationBtns">
+				        <button type="submit">Submit</button>
+				        <button type="button" onclick="closeAddAnimeModel()" id="addCancelBtn" class="cancelBtn">Cancel</button>
+				    </div>	
+				 </form>		
+			</div>
+		</div>
+	
+	   <!-- Edit弹窗 -->
+		<div class="overlay" id="overlay"></div>
+			<div class="editWindow" id="editWindow" th:style="'display:' + (${showForm2} ? 'block' : 'none') + ';'">
+				<div class="topBar">
+					<label>Edit Anime</label>
+				</div>
+				<form th:action="@{/animes/edit/{id}(id=${ID})}" th:object="${anime1}" method="post">
+				    <div>
+				        <label for="name">Name:</label>
+				        <input type="text" id="name" th:field="*{name}" />
+				        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				    </div>
+				    
+				    <div>
+				        <label for="cover">Cover:</label>
+				        <input type="text" id="cover" th:field="*{cover}" />
+				        <span class="error" th:if="${#fields.hasErrors('cover')}" th:errors="*{cover}"></span>
+				    </div>
+				    
+				    <div>
+				        <label for="description">Description:</label>
+				        <textarea id="description" th:field="*{description}" rows="4"></textarea>
+				        <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="averageRating">Average Rating:</label>
+				        <input type="number" step="0.1" id="averageRating" th:field="*{averageRating}" />
+				        <span class="error" th:if="${#fields.hasErrors('averageRating')}" th:errors="*{averageRating}"></span>
+				    </div>
+				    
+				    <div>
+				        <label for="videoPlaybackSource">Video Playback Source:</label>
+				        <input type="text" id="videoPlaybackSource" th:field="*{videoPlaybackSource}" />
+				        <span class="error" th:if="${#fields.hasErrors('videoPlaybackSource')}" th:errors="*{videoPlaybackSource}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="releaseDate">Release Date:</label>
+				        <input type="datetime-local" id="releaseDate" th:field="*{releaseDate}" />
+				        <span class="error" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="episodes">Episodes:</label>
+				        <input type="number" id="episodes" th:field="*{episodes}" />
+				        <span class="error" th:if="${#fields.hasErrors('episodes')}" th:errors="*{episodes}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="director">Director:</label>
+				        <input type="text" id="director" th:field="*{director}" />
+				        <span class="error" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="script">Script:</label>
+				        <input type="text" id="script" th:field="*{script}" />
+				        <span class="error" th:if="${#fields.hasErrors('script')}" th:errors="*{script}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="characterDesign">Character Design:</label>
+				        <input type="text" id="characterDesign" th:field="*{characterDesign}" />
+				        <span class="error" th:if="${#fields.hasErrors('characterDesign')}" th:errors="*{characterDesign}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="sakugaDirector">Sakuga Director:</label>
+				        <input type="text" id="sakugaDirector" th:field="*{sakugaDirector}" />
+				        <span class="error" th:if="${#fields.hasErrors('sakugaDirector')}" th:errors="*{sakugaDirector}"></span>
+				    </div>
+				
+				    <div>
+				        <label for="productionCompany">Production Company:</label>
+				        <input type="text" id="productionCompany" th:field="*{productionCompany}" />
+				        <span class="error" th:if="${#fields.hasErrors('productionCompany')}" th:errors="*{productionCompany}"></span>
+				    </div>
+				
+				    <div class="operationBtns">
+				        <button type="submit">Submit</button>
+				        <button type="button" onclick="closeEditAnimeModel()" id="addCancelBtn" class="cancelBtn">Cancel</button>
+				    </div>	
+				 </form>		
+			</div>
+		</div>
+		
+		
+		<!-- 删除弹窗 -->
+		<div class="overlay" id="overlay"></div>
+		<div class="deleteWindow" id="deleteWindow" th:style="'display:' + (${showForm3} ? 'block' : 'none') + ';'">
+			<div class="topBar">
+				<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Tips</label>
+			</div>
+			<p style="font-size:18px; margin-left:80px; margin-top:50px">This anime will be deleted</p >
+			<p style="font-size:16px; font-weight:bold; color:#797979; margin-left:80px">Notice：“Unable to recover after
+				deletion, please operate with caution!”</p >
+			<div class="operationBtns">
+				<button onclick="confirmDelete()" class="confirmBtn">
+					<a th:href="@{/animes/delete/{id}(id=${delete_ID})}">Confirm</a>
+				</button>
+				<button onclick="closeDeleteAnimeModel()" id="deleteCancelBtn" class="cancelBtn">Cancel</button>
+			</div>
+		</div>
+
+</body>
+
+</html>

@@ -19,9 +19,13 @@ import iss.sa.team2.ad.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
+import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/user")
@@ -63,16 +67,21 @@ public class UserController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("username") String account,
                                @RequestParam("password") String password,
-                               HttpSession session, Model model) {
-        String userId = userService.findUserIdByAccountAndPassword(account, password);
-
-        if (userId==null) {
-        	model.addAttribute("loginError", "Invalid account or password"); 
-            return "login";     
-        } else {
-        	session.setAttribute("userId", userId); 
-            return "redirect:/user/homePage";
-        }
+                               HttpSession session, Model model) {  
+        String old_userId = (String) session.getAttribute("userId");
+        if (old_userId!=null&& !old_userId.isEmpty()) {
+        	return "redirect:/user/homePage";
+        }else{
+        	String userId = userService.findUserIdByAccountAndPassword(account, password);
+        	if(userId!=null){
+            	session.setAttribute("userId", userId); 
+            	return "redirect:/user/homePage";
+            }
+            else {
+            	model.addAttribute("loginError", "Invalid account or password"); 
+                return "login";
+            }    	
+        } 
     }
     
     @GetMapping("/register")
@@ -108,15 +117,152 @@ public class UserController {
     	String userId = (String) session.getAttribute("userId");
     	Optional<User> userOptional = userService.getUserById(userId);
     	
+    	RegularUser regularUser = null;	
     	if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            
-            model.addAttribute("user", user);
+    		Optional<User> user = userService.getUserById(userId); 
+            if (user.isPresent()) {
+                regularUser = (RegularUser) user.get();
+                model.addAttribute("UserDetail", regularUser);
+                
+                List<Integer> yearRange = getYearRange();
+                List<Integer> monthRange = getMonthRange();
+                List<Integer> dayRange = getDayRange();
+                model.addAttribute("yearRange", yearRange);
+                model.addAttribute("monthRange", monthRange);
+                model.addAttribute("dayRange", dayRange);
+                model.addAttribute("user", regularUser);
+            }
             return "homePage"; 
         } else {
             
             return "error"; 
         }
     }
+    
+    @GetMapping("/follow")
+    public String getUserDetails_follow(Model model,HttpSession session) {
+    	String userId = (String) session.getAttribute("userId");
+
+    	RegularUser regularUser = null;
+        if (userId != null) {
+            Optional<User> user = userService.getUserById(userId); 
+            if (user.isPresent()) {
+                regularUser = (RegularUser) user.get();
+                model.addAttribute("UserDetail", regularUser);
+                
+                List<Integer> yearRange = getYearRange();
+                List<Integer> monthRange = getMonthRange();
+                List<Integer> dayRange = getDayRange();
+                model.addAttribute("yearRange", yearRange);
+                model.addAttribute("monthRange", monthRange);
+                model.addAttribute("dayRange", dayRange);
+            }
+        }
+    	
+    	return "follow"; 
+    }
+    
+    @GetMapping("/favourite")
+    public String getUserDetails_favourite(Model model,HttpSession session) {
+    	String userId = (String) session.getAttribute("userId");
+
+    	RegularUser regularUser = null;
+        if (userId != null) {
+            Optional<User> user = userService.getUserById(userId); 
+            if (user.isPresent()) {
+                regularUser = (RegularUser) user.get();
+                model.addAttribute("UserDetail", regularUser);
+                
+                List<Integer> yearRange = getYearRange();
+                List<Integer> monthRange = getMonthRange();
+                List<Integer> dayRange = getDayRange();
+                model.addAttribute("yearRange", yearRange);
+                model.addAttribute("monthRange", monthRange);
+                model.addAttribute("dayRange", dayRange);
+            }
+        }
+    	
+    	return "favourite"; 
+    }
+    
+    @GetMapping("/favourite_detail")
+    public String getUserDetails_favourite_detail(Model model,HttpSession session) {
+    	String userId = (String) session.getAttribute("userId");
+
+    	RegularUser regularUser = null;
+        if (userId != null) {
+            Optional<User> user = userService.getUserById(userId); 
+            if (user.isPresent()) {
+                regularUser = (RegularUser) user.get();
+                model.addAttribute("UserDetail", regularUser);
+                
+                List<Integer> yearRange = getYearRange();
+                List<Integer> monthRange = getMonthRange();
+                List<Integer> dayRange = getDayRange();
+                model.addAttribute("yearRange", yearRange);
+                model.addAttribute("monthRange", monthRange);
+                model.addAttribute("dayRange", dayRange);
+            }
+        }
+    	
+    	return "favourite_detail"; 
+    }
+    
+    @GetMapping("/profile")
+    public String getUserDetails_profile(Model model,HttpSession session) {
+    	String userId = (String) session.getAttribute("userId");
+
+        RegularUser regularUser = null;
+        if (userId != null) {
+            Optional<User> user = userService.getUserById(userId); 
+            if (user.isPresent()) {
+                regularUser = (RegularUser) user.get();
+                model.addAttribute("UserDetail", regularUser);
+                
+                List<Integer> yearRange = getYearRange();
+                List<Integer> monthRange = getMonthRange();
+                List<Integer> dayRange = getDayRange();
+                model.addAttribute("yearRange", yearRange);
+                model.addAttribute("monthRange", monthRange);
+                model.addAttribute("dayRange", dayRange);
+            }
+        }
+    	
+    	return "profile"; 
+    }
+    
+    @GetMapping("/management")
+	public String showAnimeManagementPage(Model model) {
+		List<User> users = userService.getAllUsers();
+		if (users.isEmpty()) {
+			model.addAttribute("message", "Now user list is empty.");
+		} else {
+			System.out.println("users：");
+			for (User user : users) {
+				System.out.println(user);
+			}
+		}
+		model.addAttribute("users", users);
+		return "userManagement";
+	}
    
+    private List<Integer> getYearRange() {
+        // 返回年份范围，例如从 1900 到当前年份
+        int currentYear = Year.now().getValue();
+        List<Integer> yearRange = new ArrayList<>();
+        for (int year = 1900; year <= currentYear; year++) {
+            yearRange.add(year);
+        }
+        return yearRange;
+    }
+
+    private List<Integer> getMonthRange() {
+        // 返回月份范围，从 1 到 12
+        return IntStream.rangeClosed(1, 12).boxed().collect(Collectors.toList());
+    }
+
+    private List<Integer> getDayRange() {
+        // 返回日期范围，从 1 到 31
+        return IntStream.rangeClosed(1, 31).boxed().collect(Collectors.toList());
+    }
 }

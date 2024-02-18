@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>推荐结果</title>
+</head>
+<body>
+    <h2>推荐的动漫列表</h2>
+    <ul>
+        <li th:each="anime : ${recommendedAnimes}">
+            <span th:text="${anime}"></span>
+        </li>
+    </ul>
+    <a href="/recommendationForm">返回</a>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/homepage.css">
+<link rel="stylesheet" type="text/css" href="/css/H-ui.css">
+<link rel="stylesheet" type="text/css" href="/Hui-iconfont/1.0.8/iconfont.css">
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+
+		<style>
+			.frow>.col-md-4{
+				margin-top: 20px;
+			}
+			.overlay {
+			    position: fixed;
+			    left: 0px;
+			    top: 0px;
+			    width: 100%;
+			    height: 100%;
+			    background-color: rgb(47, 79, 79);
+			    opacity: 0.607843;
+			    z-index: 1000;
+			    display: none;
+			}
+			
+			.registerWindow3 {
+				position: fixed;
+			    top: 50%;
+			    left: 50%;
+			    transform: translate(-50%, -50%);
+			    width: 520px;
+			    height: 840px;
+			    border-radius: 20px;
+			    background-color: white;
+			    z-index: 1003;
+			    display: none;
+			}
+			
+			.registerLogo {
+				margin-top: 40px;
+				font-family: Snap ITC;
+				font-size: 48px;
+				text-align: center;
+				color: #20A3FB;
+			}
+			
+			.registerTitle {
+				margin-top: 20px;
+				font-family: Comic Sans MS;
+				font-size: 32px;
+				font-weight: bold;
+				text-align: center;
+			}
+			
+			.registerTxt {
+				margin-top: 50px;
+				margin-left: 50px;
+				width: 420px;
+				height: 48px;
+				border: 0px;
+				background-color: #F5F5F5;
+				color: #797979;
+				border-radius: 5px;
+				padding: 10px;
+				font-size: 18px;
+			}
+			
+			.nextstep {
+				margin-top: 80px;
+				margin-left: 50px;
+				width: 420px;
+				height: 48px;
+				border: 0px;
+				background: linear-gradient(to right, #2D85E9, #38ABF6);
+				border-radius: 20px;
+				font-size: 18px;
+				color: white;
+				text-align: center;
+			}
+			
+			.cancel {
+				margin-top: 10px;
+				margin-left: 50px;
+				width: 420px;
+				height: 48px;
+				border: 1px solid #D4D4D4;
+				background-color: #F5F5F5;
+				border-radius: 20px;
+				font-size: 18px;
+				color: #797979;
+				text-align: center;
+			}
+			
+			.parameterName {
+				margin-left: 50px;
+				font-weight: bold;
+				font-size: 18px;
+			}
+			
+			.tagContainer {
+				display: flex;
+			    flex-wrap: wrap;
+			    align-content: flex-start; /* 固定行间距为10px */
+				margin-top: 10px;
+				margin-left: 50px;
+				width: 420px;
+				height: 180px;
+				background-color: #F5F5F5;
+				border-radius: 5px;
+				overflow-y: auto; /* 启用垂直滚动 */
+			    max-height: 170px; /* 设置最大高度，根据需要调整 */
+			}
+			
+			.tag {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 10px;
+				margin-left: 10px;
+				padding: 10px;
+				height: 30px;
+			    border: 1px solid #797979;
+			    border-radius: 5px;
+			    font-size: 16px;
+			    cursor: pointer;
+			}
+			
+			.selectedTag {
+			    background: linear-gradient(to right, #2D85E9, #38ABF6);
+			    color: #fff;
+			    border: 1px;
+			}
+			
+			.tagActions {
+			    cursor: pointer;
+			    margin-left: 10px;
+			    font-size: 16px;
+			}
+		</style>
+
+	<body style="background: #f5f5f5;">
+		<!-- 顶部栏 -->
+		<div class="container-fluid">
+			<span class="logo">AniRec</span>
+			<span class="topTitle"><a class="nav_title" href="/animes/animelist">Anime </a></span>
+			<span class="topTitle"><a class="nav_title" href="/user/homePage">Home Page</a></span>
+			<div class="search_container">
+			    <input class="animeTxt" id="animename" type="text" placeholder="Search">
+			    <div class="search_icon">
+			        <img src="/images/search.png" alt="Search Icon">
+			    </div>
+			</div>
+			
+			<!-- 头像 -->
+			<a href="/user/homePage" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon" style="margin-left:100px; padding-top: 0px;">
+						<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border:3px solid white; border-radius: 50%;">
+					</div>
+				</span>
+			</a>
+			
+			<!-- 追番 -->
+			<a href="/user/follow" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/follow_black.jpg" alt="follow Icon">
+						<p>Follow</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 收藏 -->
+			<a href="/user/favourite" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/favourite_black.jpg" alt="follow Icon">
+						<p>Favourite</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 历史 -->
+			<a href="/user/history" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/history_black.jpg" alt="follow Icon">
+						<p>History</p>
+					</div>
+				</span>
+			</a>
+			
+			<!-- 登出 -->
+			<a href="/user/login" style="text-decoration: none;">
+				<span>
+					<div class="topBar_icon">
+						<img src="/images/logout_black.jpg" alt="follow Icon">
+						<p>Logout</p>
+					</div>
+				</span>
+			</a>
+		</div>
+		<div class="main">
+			<div class="main1">
+				<div class="m1-top">
+					<div class="m1-t-img">
+						<img src="/images/userbackground.jpg" alt="" srcset="" />
+					</div>
+					<div class="m1-t-body">
+						<div class="m1-t-body-t">
+							<a href="" style="font-weight:normal; border-radius:5px;">Change Background</a>
+						</div>
+					<div class="m1-t-body-b">
+							<div style="display: table;" class="l">
+								<div style="margin-left:10px; margin-right: 20px;" class="l">
+									<img src="/images/userphoto.jpg" style="border: 2px solid white;" alt="" srcset="" />
+								</div>
+								<div class="r">
+									<div style="font-size:24px; font-weight:bold; text-align: left; color: white;">
+										<span th:text="${UserDetail.userName}">Test Account</span>
+										<span class="sex"><img src="/images/male.png" style/></span>
+									</div>
+									<div style="color:#E8E8E8; font-size:16px; text-align: left;">
+										<span th:text="${UserDetail.motto}">This is a self-introduction</span>
+									</div>
+								</div>
+							</div>
+							<div class="r">
+								<div style="font-size: 18px;color: #E8E8E8;"><span>UID：</span><span th:text="${UserDetail.id}"></span></div>
+								<div style="font-size: 18px;color: #E8E8E8;"><span>Birthday：</span><span  th:text="${UserDetail.birthday}"></span></div>
+							</div>
+						</div>
+					</div>
+					<div class="m1-t-nav">
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/homePage">
+								<img src="/images/homepage.jpg" alt="" style="margin-right:12px;">								
+								Home Page
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/follow">
+								<img src="/images/follow.jpg" alt="" style="margin-right:12px;">								
+								Follow
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a href="/user/favourite">
+								<img src="/images/favourite.jpg" alt="" style="margin-right:12px;">							
+								Favorites
+							</a>
+						</div>
+						<div style="display: inline;padding: 0 15px;margin-left: 15px;">
+							<a class="nav-active" href="/user/profile">
+								<img src="/images/profile.jpg" alt="" style="margin-right:12px;">
+								Profile
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main2">
+				<form class="form-horizontal" role="form">
+					<h3>Personal Information</h3>
+				  <div class="form-group">
+					<label for="firstname" class="col-sm-2 control-label">Nickname：</label>
+					<div class="col-sm-10">
+					  <input type="text" class="form-control" id="nickname" placeholder="Test Account" th:value="${UserDetail.userName}">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label for="lastname" class="col-sm-2 control-label">UID：</label>
+					<div class="col-sm-10">
+					  <input type="text" readonly class="form-control" id="uid" value="11111" placeholder="Test Account" th:value="${UserDetail.id}">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label for="firstname" class="col-sm-2 control-label">My Sign：</label>
+					<div class="col-sm-10">
+					  <textarea class="form-control" placeholder="Test Account" rows="3" th:field="${UserDetail.motto}"></textarea>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label for="lastname" class="col-sm-2 control-label">Gender：</label>
+					<div class="col-sm-10">
+						<label class="radio-inline">
+							<input type="radio" name="gender" id="gender1" value="option1" checked> Female
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="gender" id="gender2"  value="option2"> Male
+						</label>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label for="lastname" class="col-sm-2 control-label">Birthday：</label>
+					<div class="col-sm-10 row">
+						<div class="col-md-4">
+							<select id="year" class="form-control">
+								<option th:each="year : ${yearRange}" th:value="${year}" th:text="${year}">Year</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select id="year" class="form-control">
+								<option th:each="month : ${monthRange}" th:value="${month}" th:text="${month}">Month</option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<select id="year" class="form-control">
+								<option th:each="day : ${dayRange}" th:value="${day}" th:text="${day}">Date</option>
+							</select>
+						</div>
+					</div>
+				  </div>
+				  <h3>
+					  <span>Personal Information</span>
+					  <span style="margin-left: 10px;background: #efefef;font-size: 10px;padding: 3px 8px;">3</span>
+					  <span style="float: right;font-size: 12px;padding: 3px 20px;border: 1px solid #333;border-radius: 3px;" onclick="add()">Edit</span>
+				  </h3>
+				  <div class="addbox">
+					<span class="label label-primary">主要标签&nbsp;×</span>
+					<span class="label label-primary">主要标签&nbsp;×</span>
+				  </div>
+				  <div class="form-group">
+					<button style="display: block;margin: auto;margin-top: 25px;" type="submit" class="btn btn-primary">Save</button>
+				  </div>
+				</form>
+			</div>
+		</div>
+		<style>
+			.registerWindow3{
+				width: 60% !important;
+				box-sizing: border-box;
+			}
+			.tagContainer{
+				width: auto;
+				margin: 10px 50px;
+			}
+			.aa{
+				position: fixed;
+				height:100vh;
+				top:0;
+				left: 0;
+				z-index: 10;
+				width: 100% !important;
+				background: rgba(0, 0, 0, 0.5);
+				display: none;
+			}
+		</style>
+		<div class="aa" style="" id="registerWindow3">
+			<div style="z-index: 99999;position: relative;display: block;border-radius: 0px;height: 640px;" class="registerWindow3">
+				<p class="parameterName" style="line-height: 80px;">Edit Tags</p>
+				
+				<div id="selectedTags" class="tagContainer" onclick="toggleTag(event, 'selectedTags', 'unselectedTags')">
+				    <!-- 已选择的 tags 将在这里显示 -->
+				</div>
+				
+				<div id="unselectedTags" class="tagContainer" onclick="toggleTag(event, 'unselectedTags', 'selectedTags')">
+				    <!-- 未选择的 tags 将在这里显示 -->
+				    <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Tsdgfag3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Taertgg3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Taqweqeqg1</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Taag3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Tagqweg2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Tawqg3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Tsdgfag3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Tag1</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Taertgg3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Taqweqeqg1</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag2"><span>Tag2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Taag3</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag1"><span>Tagqweg2</span><span class="tagActions">+</span></div>
+				    <div class="tag" data-tag="Tag3"><span>Tawqg3</span><span class="tagActions">+</span></div>
+				</div>
+				<div style="text-align: right;padding: 50px;" class="out">
+					<span onclick="registerWindow2(event)" style="padding: 8px 15px;" class="label label-primary">Save</span>
+					<span onclick="cancel(event)" style="padding: 8px 15px;" class="label label-default">Cancel</span>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+	function add(){
+		$('#registerWindow3').show();
+	}
+	function registerWindow2(event) {
+		event.preventDefault(); // 阻止表单默认提交
+		$('#registerWindow3').show();
+		// document.getElementById('registerWindow1').style.display = "none";
+		// document.getElementById('registerWindow2').style.display = "block";
+		// document.getElementById('registerWindow3').style.display = "none";
+		// document.getElementById('overlay').style.display = "block";
+	}
+	
+	function cancel() {
+		$('#registerWindow3').hide();
+		// document.getElementById('registerWindow1').style.display = "none";
+		// document.getElementById('registerWindow2').style.display = "none";
+		// document.getElementById('registerWindow3').style.display = "none";
+		// document.getElementById('overlay').style.display = "none";
+	}
+	
+	function toggleTag(event, sourceContainerId, targetContainerId) {
+	    const clickedTag = event.target.closest('.tag');
+	    if (clickedTag) {
+	        const sourceContainer = document.getElementById(sourceContainerId);
+	        const targetContainer = document.getElementById(targetContainerId);
+	
+	        sourceContainer.removeChild(clickedTag);
+	        targetContainer.appendChild(clickedTag);
+	
+	        toggleSelected(clickedTag);
+	    }
+	}
+	
+	function toggleSelected(tag) {
+	    tag.classList.toggle('selectedTag');
+	
+	    const tagActions = tag.querySelector('.tagActions');
+	
+	    // 切换符号，如果当前是 '+'，则切换为 '×'，反之亦然
+	    tagActions.innerText = tag.classList.contains('selectedTag') ? '×' : '+';
+	}
+</script>

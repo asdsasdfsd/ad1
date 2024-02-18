@@ -1,69 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/management.css">
+<script th:src="@{/js/animetagManagement.js}" th:inline="javascript"></script>
 
 <head>
-	<meta charset="ISO-8859-1">
-	<title>Tags</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<title>Animetag Management</title>
 </head>
 
 <body>
+	<!-- 导航栏 -->
+	<div class="container-fluid">
+		<span class="logo"><a th:href="@{'/user/homePage'}">AniRec </a></span>
+		<span><a class="nav_title" th:href="@{'/animes/management'}">Anime </a></span>
+		<span><a class="nav_title" th:href="@{'/animetags/management'}">Tags </a></span>
+		<span><a class="nav_title" th:href="@{'/user/management'}">Role </a></span>
+		<span><a class="nav_title" th:href="@{'/comments/management'}">Comment </a></span>
+		<span><a class="nav_title" th:href="@{'/blacklists/management'}">Forbidden Words </a></span>
+		<span><a class="nav_title2" th:href="@{'/user/logout'}">Log out </a></span>
+	</div>
+
 	<div class="container">
+		<label class="page_title">Tag Management</label>
 
-		<h3>Tag Management</h3>
+		<div class="searchBar">
+			<input class="nicknameTxt" id="name" type="text" placeholder="tagName">
+			<button id="searchButton" class="searchBtn" type="submit">Search</button>
+			<button class="resetBtn" type="button" onclick="resetSearch()">Reset</button>
+			<button class="addBtn" id="addanimetagBtn" type="submit" onclick="openAddAnimetagModel()">Add</button>
+		</div>
 
-		<div class="input-group mb-3">
-			<input type="text" class="form-control" placeholder="Search by name" id="searchName">
-			<div class="input-group-append">
-				<button class="btn btn-outline-secondary" type="button" onclick="searchByName()">Search</button>
+		<div class="row">
+			<div class="col-md-11">
+				<form id="animetagTable" action="/animetags/management" method="post">
+					<table class="table table-bordered table-hover" th:if="${animetags}">
+						<tr>
+							<th style="width:150px">Index</th>
+							<th style="width:150px">Name</th>
+							<th style="width:300px">Anime Count with Tag</th>
+							<th style="width:150px">Operate</th>
+						</tr>
+						<tr th:each="animetag : ${animetags}">
+							<td th:text="${animetag.id}"></td>
+							<td th:text="${animetag.tagName}"></td>
+							<td th:text="${animeCount}"></td>
+							<td>
+								<button onclick="editWindow(event)" class="editBtn">Edit</button>
+								<button onclick="openDeleteAnimetagModel()" class="deleteBtn" id="deleteanimetagBtn" type="submit">Delete</button>
+							</td>
+						</tr>
+					</table>
+				</form>
 			</div>
 		</div>
 
-		<a th:href="@{/animetags/create}" class="btn btn-primary btn-sm mb-3">Create</a>
+		<!-- 添加弹窗 -->
+		<div class="overlay" id="overlay"></div>
+		<div class="addWindow" id="addWindow">
+			<div class="topBar">
+				<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Add Tag</label>
+			</div>
+			<form id="addAnimeatagForm">
+				<label for="name" style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Tag Name:</label>
+				<input type="text" id="name" name="name"><br><br>
+				<div class="operationBtns">
+					<button type="submit" id="addAnimetagSubmitBtn" onclick=" addAnimetag()">Submit</button>
+					<button onclick="closeAddAnimetagModel()" id="addCancelBtn" class="cancelBtn">Cancel</button>
+				</div>
+			</form>
+		</div>
 
-		<table class="table table-striped table-responsive-md">
-			<thead>
-				<tr>
-					<th>Index</th>
-					<th>Name</th>
-					<th>Anime Count with Tag</th>
-					<th>Operate</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="animetag : ${animetags}">
-					<td th:text="${animetag.id}"></td>
-					<td th:text="${animetag.tagName}"></td>
-					<td th:text="${animeCount}"></td>
-					<td>
-						<button th:onclick="'editTag(' + ${animetag.id} + ')'" class="btn btn-primary">Edit</button>
-						<button th:onclick="'deleteTag(' + ${animetag.id} + ')'" class="btn btn-danger">Delete</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<!-- 删除弹窗 -->
+		<div class="overlay" id="overlay"></div>
+		<div class="deleteWindow" id="deleteWindow">
+			<div class="topBar">
+				<label style="font-size:18px; font-weight:bold; margin-left:25px; margin-top:15px">Tips</label>
+			</div>
+			<p style="font-size:18px; margin-left:80px; margin-top:50px">This Tag will be deleted</p>
+			<p style="font-size:16px; font-weight:bold; color:#797979; margin-left:80px">Notice：“Unable to recover after
+				deletion, please operate with caution!”</p>
+			<div class="operationBtns">
+				<button onclick="confirm()" class="confirmBtn">Confirm</button>
+				<button onclick="closeDeleteAnimetagModel()" id="deleteCancelBtn" class="cancelBtn">Cancel</button>
+			</div>
+		</div>
+
+
 	</div>
-
-	<script>
-		// 页面加载完成后执行
-		$(document).ready(function () {
-			// 调用countAnimesByAnimetag方法获取数据，并更新表格内容
-			updateTable();
-		});
-
-		function updateTable() {
-			$.get("/animetags/count/{animetagId}", function (data) {
-				// 更新表格内容
-				$("#animetagTable tbody").html("<tr><td>1</td><td>{animetagName}</td><td>" + data + "</td><td><button>Edit</button><button>Delete</button></td></tr>");
-			});
-		}
-
-		function searchByName() {
-			var name = document.getElementById("searchName").value;
-			window.location.href = "/animetags/search?name=" + name;
-		}
-
-	</script>
 
 </body>
 

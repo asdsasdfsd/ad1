@@ -1,51 +1,371 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title th:text="${anime.name}">Anime Details</title>
-    <script src="/js/collection.js"></script>
-</head>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/css/animeDetails.css">
+<link rel="stylesheet" type="text/css" href="/css/H-ui.css">
+<link rel="stylesheet" type="text/css" href="/Hui-iconfont/1.0.8/iconfont.css">
+<script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/H-ui.js}"></script>
+<script th:src="@{/js/jquery.validate.min.js}"></script>
+<script th:src="@{/js/animeDetails.js}"></script>
+
 <body>
-    <h1 th:text="${anime.name}">Anime Name</h1>
-    <img th:src="${anime.cover}" th:alt="${anime.name}" />
-    <p th:text="${anime.description}">Anime Description</p>
-    <p>Video Source: <a th:href="${anime.videoPlaybackSource}" th:text="${anime.videoPlaybackSource}">Video Link</a></p>
-    <p th:text="'Clicks: ' + ${anime.clicks}">Clicks</p>
-    <p th:text="'Average Rating: ' + ${anime.averageRating}">Average Rating</p>
-    <p th:text="'Release Date: ' + ${anime.releaseDate}">Release Date</p>
-    <p th:text="'Episodes: ' + ${anime.episodes}">Episodes</p>
-    <p th:text="'Director: ' + ${anime.director}">Director</p>
-    <p th:text="'Script: ' + ${anime.script}">Script</p>
-    <p th:text="'Character Design: ' + ${anime.characterDesign}">Character Design</p>
-    <p th:text="'Sakuga Director: ' + ${anime.sakugaDirector}">Sakuga Director</p>
-    <p th:text="'Production Company: ' + ${anime.productionCompany}">Production Company</p>
-
-    <button id="CreateCollection">创建收藏夹</button>
-    <div id="collectionModal" style="display:none;">
-	    <h2>添加到收藏</h2>
-	    <input type="hidden" id="animeId" value="${anime.id}" />
-	    <input type="hidden" id="userId" value="${regularUser.id}" />
-	    <label for="animeName">名称：</label>
-	    <input type="text" id="animeName" name="animeName"><br><br>
-	    <label for="animeRating">评分：</label>
-	    <input type="number" id="animeRating" name="animeRating" min="0" max="10" step="0.1"><br><br>
-	    <label for="animeDescription">描述：</label>
-	    <textarea id="animeDescription" name="animeDescription"></textarea><br><br>
-	    <button onclick="closeModal()">取消</button>
+	
+	<!-- 主体内容 -->
+	<div class="background_blur" th:style="'background-image: url(\'' + ${anime.cover} + '\');'">
+		<div class="blur_overlay"></div>
+		<div class="background_pic">
+			<!-- 顶部栏 -->
+			<div class="container-fluid">
+				<span class="logo">AniRec</span>
+				<span class="topTitle"><a class="nav_title" href="/animes/animelist">Anime </a></span>
+				<span class="topTitle"><a class="nav_title" href="/user/homePage">Home Page </a></span>
+				<div class="search_container">
+				    <input class="animeTxt" id="animename" type="text" placeholder="Search">
+				    <div class="search_icon">
+				        <img src="/images/search.png" alt="Search Icon">
+				    </div>
+				</div>
+				
+				<!-- 头像 -->
+				<a href="/user/follow" style="text-decoration: none;">
+					<span>
+						<div class="topBar_icon" style="margin-left:100px; padding-top: 0px;">
+							<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border:3px solid white; border-radius: 50%;">
+						</div>
+					</span>
+				</a>
+				
+				<!-- 追番 -->
+				<a href="/user/follow" style="text-decoration: none;">
+					<span>
+						<div class="topBar_icon">
+							<img src="/images/follow_white.png" alt="follow Icon">
+							<p style="font-weight:bold; color:white;">Follow</p>
+						</div>
+					</span>
+				</a>
+				
+				<!-- 收藏 -->
+				<a href="/user/favourite" style="text-decoration: none;">
+					<span>
+						<div class="topBar_icon">
+							<img src="/images/favourites_white.png" alt="follow Icon">
+							<p style="font-weight:bold; color:white;">Favourite</p>
+						</div>
+					</span>
+				</a>
+				
+				<!-- 历史 -->
+				<a href="/user/history" style="text-decoration: none;">
+					<span>
+						<div class="topBar_icon">
+							<img src="/images/history_white.png" alt="follow Icon">
+							<p style="font-weight:bold; color:white;">History</p>
+						</div>
+					</span>
+				</a>
+				
+				<!-- 登出 -->
+				<a href="/user/login" style="text-decoration: none;">
+					<span>
+						<div class="topBar_icon">
+							<img src="/images/logout_white.png" alt="follow Icon">
+							<p style="font-weight:bold; color:white;">Logout</p>
+						</div>
+					</span>
+				</a>
+			</div>
+		</div>
+		
+		<div class="container detailBody">
+			<div class="row">
+				<div class="col-md-2">
+					<img class="coverImg" th:src="${anime.cover}" />
+				</div>
+				<div class="col-md-10">
+					<div class="animeTitle" style="display: table;">
+						<span class="tagSpan" style="color:white; font-size: 24px; font-weight: bold;" th:text="${anime.name}">animeName</span>
+						<span class="tagSpan" style="margin-left: 20px;">
+							<span class="label label-default animeTag">默认标签</span>
+						</span>
+					</div>
+					<div class="row" style="margin:15px 0px; margin-bottom: 0;">
+						<div class="col-md-9" style="display: table; padding-left:0;">
+							<div class="animeDetail1">
+								<div>Followed</div>
+								<div th:text="${anime.clicks}"></div>
+							</div>
+							<div class="animeDetail1" style="width:70px;">
+								<span style="border-right: 1px solid white; display: block; height: 48px; width: 1px; margin: 6px auto;"></span>
+							</div>
+							<div class="animeDetail1">
+								<div>Favourites</div>
+								<div th:text="${anime.clicks}"></div>
+							</div>
+						</div>
+						<div class="col-md-3 ratingDiv" style="display:table;">
+							<div class="rating">
+								<span class="ratingTxt" id="rating" th:text="${anime.averageRating}">Rating</span>
+							</div>
+							<div class="rating star">
+								<div style="font-size:16px; color: #F3A034;">
+									<div class="clearfix">
+										<div class="star-bar star-bar-show size-M f-l va-m mr-10">
+											<span class="star" id="star"></span>
+										</div>
+									</div>
+								</div>
+								<div style="font-size:14px; color:white;" th:text="${anime.clicks} + ' ratings'">clicks</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="margin:15px 0px; margin-top:0;">
+						<div class="animeDetail1" style="height:24px;" th:text="'Lanched on ' + ${anime.releaseDate}">Lanched on</div>
+						<div class="animeDetail1" style="height:24px; margin-left:30px;" th:text="${anime.episodes} + ' episodes'">Episodes</div>
+					</div>
+					<div class="row" style="margin:15px 0px;">
+						<div class="animeDetail-2" th:text="${anime.description}">Description</div>
+					</div>
+					<div class="row" style="margin:15px 0px;">
+						<form action="/regularuseranime/create/subscription" method="post">
+						    <input type="hidden" name="animeId" th:value="${anime.id}"> <!-- 确保这里替换为正确的动态值 -->
+						
+						    <!-- 'Follow' 按钮 -->
+						    <button type="submit" class="operateIcon" style="background-color: rgba(243, 99, 146, 1);">
+						        <i class="icon Hui-iconfont">&#xe648;</i>Follow
+						    </button>
+						</form>
+						<span class="operateIcon" onclick="favourite()" style="background-color: rgba(243, 160, 52, 1);"><i class="icon Hui-iconfont"></i>Favourite</span>
+						<span class="operateIcon" onclick="score()" style="background-color: rgba(0, 192, 145, 1);"><i class="icon Hui-iconfont"></i>Score</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				
+			</div>
+		</div>
+		
+		
+		
 	</div>
-	<button id="Add-to-Collection">添加到收藏夹</button>
-    <button id="SplitScreen">屏分</button>
-    <button id="Subscribe">订阅</button>
-    
-    <button id="CreateComment">创建评论</button>
-    <h2>Comments</h2>
-    <div th:each="comment : ${anime.comments}">
-        <p th:text="${comment.text}">Comment Text</p>      
-    </div>
 
-    <h2>Tags</h2>
-    <ul>
-        <li th:each="tag : ${anime.tags}" th:text="${tag.name}">Tag Name</li>
-    </ul>
-
+	<!-- 白色页签栏 -->
+	<div class="pageTabBar1">
+		<div class="container pageTabBar2">
+			<div class="row" style="position:absolute; width:100%;">
+				<!-- Anime Details -->
+				<div class="col-md-2 tag1 tag" onclick="tagline(this,'characterAndStaff')">
+					<span class="tag_change">Anime Details</span>
+					<div class="tagLine1" id="tagLine1"></div>
+				</div>
+				
+				<!-- Comment -->
+				<div class="col-md-10 tag2 tag" onclick="tagline(this,'comment')">
+					<span class="tag_change">Comment</span>
+					<div class="tagLine2" id="tagLine2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 评论区 -->
+	<div class="container comment box" id="comment">
+		<div style="margin:40px; margin-bottom: 0px;">
+			<span class="characterTitle">Comment</span>
+			<button class="writeComment" onclick="score()">Write Comment</button>
+		</div>
+		<div class="commentBox">
+			<div class="row" style="margin-left:0px;">
+				<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border-radius: 50%;">
+				<span style="margin-left:20px; font-weight:bold; color:#1EABDA">Text Account</span>
+				<span style="margin-left:30px; font-weight:bold; color:#F3A034">9.0</span>
+				<span style="float: right; color: #797979; margin-right: 50px;">2024-01-26</span>
+			</div>
+        	<p style="line-height:75px; margin-left:75px;">Comment Text</p>   
+	    </div>
+	    <div class="commentBox">
+			<div class="row" style="margin-left:0px;">
+				<img src="/images/userphoto.jpg" alt="userphoto" style="width:48px; height:48px; border-radius: 50%;">
+				<span style="margin-left:20px; font-weight:bold; color:#1EABDA">Text Account</span>
+				<span style="margin-left:30px; font-weight:bold; color:#F3A034">9.0</span>
+				<span style="float: right; color: #797979; margin-right: 50px;">2024-01-26</span>
+			</div>
+        	<p style="line-height:75px; margin-left:75px;">Comment Text</p>   
+	    </div>
+	</div>
+	
+	<!-- 角色和制作人员名单 -->
+	<div class="container characterAndStaff box" id="characterAndStaff">
+		<div class="row">
+			<div class="character">
+				<div style="margin:40px; margin-bottom: 0px;">
+					<span class="characterTitle">Character</span>
+				</div>
+				<div class="row" style="margin-left:40px;">
+					<div class="col-md-4 row">
+						<div class="col-md-4">
+							<img src="/images/c1.jpg" />
+						</div>
+						<div class="col-md-8">
+							<div style="height:42px; font-size:24px; margin-top: -5px; color: #1EABDA">Hoshino Ai</div>
+							<div style="color: #797979">CV: Takahashi Rie </div>
+						</div>
+					</div>
+					<div class="col-md-4 row">
+						<div class="col-md-4">
+							<img src="/images/c1.jpg" />
+						</div>
+						<div class="col-md-8">
+							<div style="height:42px; font-size:24px; margin-top: -5px; color: #1EABDA">Hoshino Ai</div>
+							<div style="color: #797979">CV: Takahashi Rie </div>
+						</div>
+					</div>
+					<div class="col-md-4 row">
+						<div class="col-md-4">
+							<img src="/images/c1.jpg" />
+						</div>
+						<div class="col-md-8">
+							<div style="height:42px; font-size:24px; margin-top: -5px; color: #1EABDA">Hoshino Ai</div>
+							<div style="color: #797979">CV: Takahashi Rie </div>
+						</div>
+					</div>
+					<div class="col-md-4 row">
+						<div class="col-md-4">
+							<img src="/images/c1.jpg" />
+						</div>
+						<div class="col-md-8">
+							<div style="height:42px; font-size:24px; margin-top: -5px; color: #1EABDA">Hoshino Ai</div>
+							<div style="color: #797979">CV: Takahashi Rie </div>
+						</div>
+					</div>
+					<div class="col-md-4 row">
+						<div class="col-md-4">
+							<img src="/images/c1.jpg" />
+						</div>
+						<div class="col-md-8">
+							<div style="height:42px; font-size:24px; margin-top: -5px; color: #1EABDA">Hoshino Ai</div>
+							<div style="color: #797979">CV: Takahashi Rie </div>
+						</div>
+					</div>
+					<div class="col-md-4 row">
+						<div class="col-md-4">
+							<img src="/images/c1.jpg" />
+						</div>
+						<div class="col-md-8">
+							<div style="height:42px; font-size:24px; margin-top: -5px; color: #1EABDA">Hoshino Ai</div>
+							<div style="color: #797979">CV: Takahashi Rie </div>
+						</div>
+					</div>
+				</div>
+				<h4>Recommended Anime List</h4>
+			    <ul>
+			        <li th:each="anime : ${recommendedAnimes}">
+			            <span th:text="${anime}"></span>
+			        </li>
+			    </ul>
+			</div>
+			<div class="staff">
+				<div style="margin:40px; margin-bottom: 10px;">
+					<span class="characterTitle">Staff</span>
+				</div>
+				<div class="staffTxt">
+					<p th:text="'Director: ' + ${anime.director}">Director</p>
+				    <p th:text="'Script: ' + ${anime.script}">Script</p>
+				    <p th:text="'Character Design: ' + ${anime.characterDesign}">Character Design</p>
+				    <p th:text="'Sakuga Director: ' + ${anime.sakugaDirector}">Sakuga Director</p>
+				    <p th:text="'Production Company: ' + ${anime.productionCompany}">Production Company</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 评分弹窗 -->
+	<div class="overlay" id="overlay"></div>
+	<div class="scoreWindow" id="scoreWindow">
+		<div class="row">
+			<div class="col-md-3" style="text-align: center;">
+				<img class="coverImg_score" th:src="${anime.cover}" />
+			</div>
+			<div class="col-md-9" style="padding:0 30px;">
+				<div style="font-size:24px; font-weight:bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" class="row" th:text="${anime.name}"></div>
+				<div class="row" style="line-height:50px; margin-top:36px;">please rate for this anime</div>
+				<div class="row" style="position: relative;">
+					<select class="scoreSelect" onchange="select(this.value)">
+						<option>10</option>
+						<option>9</option>
+						<option>8</option>
+						<option>7</option>
+						<option>6</option>
+						<option>5</option>
+						<option>4</option>
+						<option>3</option>
+						<option>2</option>
+						<option>1</option>
+					</select>
+					<div class="circle" id="circle">1</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="formControls">
+				<textarea cols="" rows="" class="textarea" name="beizhu" id="beizhu"  placeholder="说点什么...最少输入10个字符"></textarea>
+			</div>
+			<div style="text-align: right">
+				<button onclick="confirm_score()" class="confirm">Confirm</button>
+				<button onclick="cancel_score()" class="cancel">Cancel</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 收藏评分弹窗 -->
+	<div class="overlay" id="overlay"></div>
+	<div class="favouriteWindow" id="favouriteWindow">
+		<span class="favouriteWindowTitle">Add in Favourites</span>
+		<div class="favouriteItem">
+			<div class="row">
+				<div class="col-md-1" style="text-align:center;">
+					<input class="choose_f" type="radio" />
+				</div>
+				<div class="col-md-8">Idol</div>
+				<div class="col-md-3" style="text-align:right;">16/1000</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1" style="text-align:center;">
+					<input class="choose_f" type="radio" />
+				</div>
+				<div class="col-md-8">Idol</div>
+				<div class="col-md-3" style="text-align:right;">16/1000</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1" style="text-align:center;">
+					<input class="choose_f" type="radio" />
+				</div>
+				<div class="col-md-8">Idol</div>
+				<div class="col-md-3" style="text-align:right;">16/1000</div>
+			</div>
+		</div>
+		<div id="create_group">
+			<div class="newF" id="newF1" onclick="create('newF2')" style="display:table; width:100%;">
+			    <div class="input-group" style="width:100%;">
+			      <input style="width:100%; border-radius: 5px; border-color: #797979; " readonly type="text" class="create_txt" placeholder="+ Create New Favourite">
+			    </div><!-- /input-group -->
+			</div>
+			<div class="newF" id="newF2" style="display:none; width:100%;">
+			    <div class="input-group" style="width:100%;">
+			      <input type="text" class="create_txt" placeholder="Up to 20 words can be entered">
+			      <span onclick="afterCreate()" class="createBtn">
+			        	Create
+			      </span>
+			    </div><!-- /input-group -->
+			</div>
+		</div>
+		<div style="text-align:right; position:absolute; bottom:40px; width:480px;">
+			<button onclick="confirm_favourite()" class="confirm">Confirm</button>
+			<button onclick="cancel_favourite()" class="cancel">Cancel</button>
+		</div>
+		
+	</div>
 </body>
-</html>
+</html>	

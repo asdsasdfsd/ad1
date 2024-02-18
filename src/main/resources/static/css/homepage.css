@@ -1,0 +1,314 @@
+body {
+	background-color: white;
+	font-family: 'Arial'; 
+	font-size: 18px;
+}
+
+/* 顶部栏 */
+.container-fluid {
+	width: 100%;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	background: #fff;
+	box-shadow: 3px 2px 3px #999;
+}
+
+.logo {
+	margin-left: 40px;
+	font-family: 'Snap ITC';
+	color: #20A3FB;
+	font-size: 48px;
+	font-weight: bold;
+}
+
+.nav_title {
+	margin-left: 50px;
+	font-weight: bold;
+	color: white;
+}
+
+.search_container {
+    display: flex;
+    align-items: center;
+}
+
+.animeTxt {
+	margin-left: 50px;
+	width: 760px;
+	height: 48px;
+	border: 0px;
+	background-color: #F5F5F5;
+	color: #797979;
+	border-radius: 5px;
+	padding: 10px;
+	font-size: 18px;
+}
+
+.search_icon {
+    margin-left: -44px;
+}
+
+.topBar_icon {
+	padding-top: 10px;
+	margin-left: 36px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category {
+	margin-top: 40px;
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #1EABDA;
+}
+
+
+
+
+
+.main{
+	width: 80%;
+	margin: auto;
+}
+.main1{
+	height: 200px;
+	width: 100%;
+	position: relative;
+}
+.m1-top{
+	background: #fff;
+}
+.m1-t-img{
+	height: 150px;
+}
+.main1 .m1-t-img>img{
+	width: 100%;
+	height: 150px;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+}
+.m1-t-body{
+	width: 100%;
+	height: 150px;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	padding: 15px;
+	box-sizing: border-box;
+}
+a:hover{
+	text-decoration: none !important;
+}
+.m1-t-nav{
+	height: 50px;
+}
+.m1-t-nav a{
+	line-height: 46px;
+	display: inline-block;
+	height: 50px;
+	font-size: 18px;
+}
+.m1-t-nav a i{
+	color: #00c091;
+}
+.m1-t-nav a:hover{
+	border-bottom: 4px solid #20acda;
+	
+}
+.nav-active{
+	border-bottom: 4px solid #20acda;
+}
+.main2{
+	margin-top: 10px;
+	padding: 20px 30px;
+	background: #fff;
+	padding-bottom: 20px;
+	border-radius: 5px;
+}
+.main2 .tit{
+	line-height: 50px;
+	font-size: 20px;
+	position: relative;
+}
+.t-bq{
+	display: inline-block;
+	position: absolute;
+	z-index: 1;
+	right: 25px;
+	border: 1px solid #bbb;
+	padding: 3px 10px;
+	line-height: 20px;
+	font-size: 14px;
+	border-radius: 3px;
+	color: #666;
+}
+.mrow{
+	display: table;
+	width: 100%;
+}
+.mrow>.m-item{
+	width: 20%;
+	float: left;
+	color: #fff;
+}
+.mrow>.m-item>div{
+	width: 90%;
+	padding: 8px 10px;
+	border-radius: 5px;
+}
+.mrow>.m-item h2{
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.frow{
+	margin: 0;
+	padding: 0;
+}
+.frow img{
+	width: 95%;
+}
+.farow>.col-md-6{
+	margin: 0;
+	padding: 0;
+}
+.farow{
+	margin: 0;
+	padding: 0;
+}
+.farow img{
+	width: 95%;
+}
+.farow>.col-md-4{
+	margin: 0;
+	padding: 0;
+}
+
+.m1-t-body>div{
+	height: 60px;
+}
+.m1-t-body-t{
+	text-align: right;
+}
+.m1-t-body-t>a{
+	background: #51565a;
+	color: #fff;
+	padding: 8px;
+}
+.m1-t-body-t>a:hover{
+	color: #fff;
+}
+.m1-t-body-b{
+	display: table;
+	width: 100%;
+}
+.m1-t-body-b .l>img{
+	width: 60px;
+	border-radius: 100px;
+}
+.l{
+	float: left;
+	text-align: left;
+}
+.r{
+	float: right;
+	text-align: right;
+}
+.r span{
+	/* border:1px solid #111 */
+}
+.sex{
+	display: inline-block;
+	margin-left: 10px;
+	border-radius: 50px;
+	background: #5fd4f2;
+	color: #fff;
+	height: 27px;
+	width: 28px;
+	padding: 4px 7px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+.f-tit{
+	width: 100%;
+	font-size: 20px;
+	white-space: nowrap;  /* 防止文本换行 */  
+	overflow: hidden;  /* 隐藏超出容器的内容 */  
+	text-overflow: ellipsis;  /* 当内容被裁剪时，显示省略号 */
+	color: #333;
+}
+.f-txt{
+	height: 60px;
+	display: -webkit-box;  
+	  -webkit-line-clamp: 3;  
+	  -webkit-box-orient: vertical;  
+	  overflow: hidden;  
+	  text-overflow: ellipsis; 
+	   color: #333;
+}
+.f-time{
+	position: relative;
+	height: 35px;
+	color: #666;
+	line-height: 35px;
+}
+.chbox{
+	display: none;
+	position: absolute;
+	right: 5px;
+	width: 15px;
+	height: 15px;
+	top: 10px;
+}
+.col-md-9>.f-tit,.col-md-6>.f-tit{
+	height: 50px;
+	line-height: 50px;
+}
+.col-md-9>.f-time,.col-md-6>.f-time{
+	height: 50px;
+	line-height: 50px;
+}
+
+.addbox{
+	width: 80%;
+	height: 300px;
+	margin: auto;
+	background: #f5f5f5;
+	border-radius: 5px;
+	box-sizing: border-box;
+	padding: 15px;
+}
+
+.f-create{
+	padding: 15px 25px;
+	text-align: right;
+}
+
+
+#tcbox{
+	display: none;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 9999;
+	background: rgba(0, 0, 0, 0.5);
+}
+.tc-box{
+	width: 60vw;
+	height: 60vh;
+	position: absolute;
+	left: 20vw;
+	top: 20vh;
+	background: #fff;
+	border-radius: 10px;
+	padding: 50px;
+	box-sizing: border-box;
+}
+
+
