@@ -59,7 +59,11 @@ public class UserController {
     public String showLoginForm(HttpSession session) {
         String userId = (String) session.getAttribute("userId");
         if (userId != null && !userId.isEmpty()) {
-            return "redirect:/user/homePage";
+        	if(userService.getUserById(userId).get().getPosition()==UserPosition.RegularUser) {
+    			return "redirect:/user/homePage";
+    		}else {
+    			return "redirect:/animes/management";
+    		}
         } else {
             return "login";
         }
