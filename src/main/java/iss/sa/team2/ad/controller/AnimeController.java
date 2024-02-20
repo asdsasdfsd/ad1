@@ -124,18 +124,6 @@ public class AnimeController {
         regularUserAnime.setTime(LocalDateTime.now());
         regularUserAnime.setType(MyType.History);
         
-        regularUserAnimeService.saveRegularUserAnime(regularUserAnime);
-        
-        PredictionRequest request = new PredictionRequest();
-        request.setName("Death Note");
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<PredictionRequest> entity = new HttpEntity<>(request, headers);
-        
-        List<String> recommendedAnimes = restTemplate.postForObject("http://192.168.68.115:5000/recommend", entity, List.class);
-
-        model.addAttribute("recommendedAnimes", recommendedAnimes);
         model.addAttribute("anime", anime);
         model.addAttribute("regularUser", regularUser);
 
@@ -159,14 +147,18 @@ public class AnimeController {
         return "animeManagement";
     }
     
-    @GetMapping("/search")
-	public String searchAnimes(@RequestParam("name") String name, Model model) {
+    @PostMapping("/search")
+	public String searchAnimes(@ModelAttribute("name") String name, Model model) {
 	    List<AnimeDTO> animeDTOs = animeService.searchByName(name);
 	    
 	    if (animeDTOs.isEmpty()) {
-	        model.addAttribute("message", "No matching results found.");
+	        return "redirect:/animes/management";
 	    } else {
+	    	model.addAttribute("anime", new Anime());
+        	model.addAttribute("anime1", new Anime());
 	        model.addAttribute("animeDTOs", animeDTOs);
+	        model.addAttribute("showForm", false);
+        	model.addAttribute("showForm2", false);
 	    }
 	    
 	    return "animeManagement";
@@ -237,6 +229,7 @@ public class AnimeController {
     	model.addAttribute("showForm2",false);
     	model.addAttribute("showForm3",true);
     	model.addAttribute("delete_ID", id);
+    	System.out.println(id);
         return "animeManagement"; 
     }
 

@@ -19,10 +19,12 @@
 	<div class="container">
 		<label class="page_title">Anime Management</label>
 		<div class="searchBar">
-			<input class="nicknameTxt" id="name" type="text" placeholder="Name">
-			<button id="searchButton" class="searchBtn" type="submit" onclick="searchByName()">Search</button>
-			<button class="resetBtn" type="button" onclick="resetSearch()">Reset</button>
-			<button class="addBtn" id="addBtn" type="submit" onclick="openAddAnimeModel()">Add</button>
+			<form action="/animes/search" method="post">
+			    <input class="nicknameTxt" id="name" name="name" type="text" placeholder="Name">
+			    <button id="searchButton" class="searchBtn" type="submit">Search</button>
+			    <button class="resetBtn" type="button" onclick="resetSearch()">Reset</button>
+			    <button class="addBtn" id="addBtn" type="button" onclick="openAddAnimeModel()">Add</button>
+			</form>		
 		</div>
 		
 		<div class="row">
@@ -245,7 +247,7 @@
 			<p style="font-size:16px; font-weight:bold; color:#797979; margin-left:80px">Notice：“Unable to recover after
 				deletion, please operate with caution!”</p >
 			<div class="operationBtns">
-				<button onclick="confirmDelete()" class="confirmBtn">
+				<button onclick="closeDeleteAnimeModel()" class="confirmBtn">
 					<a th:href="@{/animes/delete/{id}(id=${delete_ID})}">Confirm</a>
 				</button>
 				<button onclick="closeDeleteAnimeModel()" id="deleteCancelBtn" class="cancelBtn">Cancel</button>

@@ -63,7 +63,7 @@ function closeEditAnimeModel() {
 }
 
 
-function openDeleteAnimeModel(event) {
+function openDeleteAnimeModel() {
     var deleteWindow = document.getElementById('deleteWindow');
     var overlay = document.getElementById('overlay');
     
